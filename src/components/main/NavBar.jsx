@@ -33,7 +33,7 @@ const NavBar = () => {
           <Link to='/'>HOME</Link>
         </Lilist>
         <Lilist>
-          <Link to='/'>챔피언 분석</Link>
+          <Link to='/championInfo'>챔피언 분석</Link>
         </Lilist>
         <Lilist>
           <Link to='/'>랭킹</Link>
