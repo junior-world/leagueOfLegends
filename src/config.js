@@ -9,8 +9,8 @@
  */
 export const ROTATION_CHAMPION = '/lol/platform/v3/champion-rotations'; //챔피언 로테이션 API
 export const CHAMPIONS_DATA =
-  'https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion.json'; //모든 챔피언 정보
+  'https://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion.json'; //모든 챔피언 정보
 
-//http://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/<champion_name>.json
+//http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/<champion_name>.json
 export const CHAMPION_DATA =
-  'http://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/.json'; //특정 챔피언 정보
+  'http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/.json'; //특정 챔피언 정보

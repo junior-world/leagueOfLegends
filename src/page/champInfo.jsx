@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import * as config from '../config';
-import rotation from '../controller/rotation';
+import Rotation from '../controller/Rotation';
 
-function champInfo(props) {
+function ChampInfo(props) {
   useEffect(() => {
-    rotation();
+    Rotation();
   }, []);
 
   return <div>Hello</div>;
 }
 
-export default champInfo;
+export default ChampInfo;
