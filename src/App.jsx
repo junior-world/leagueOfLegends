@@ -1,7 +1,7 @@
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
-import Main from './page/Main';
-import ChampInfo from './page/ChampInfo';
+import Main from './page/main';
+import ChampInfo from './page/champInfo';
 
 function App() {
   return (

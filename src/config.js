@@ -8,9 +8,12 @@
  * 챔피언 분석 page에서 사용하는 변수들 지정
  */
 export const ROTATION_CHAMPION = '/lol/platform/v3/champion-rotations'; //챔피언 로테이션 API
-export const CHAMPIONS_DATA =
+export const ALL_CHAMPION_DATA =
   'https://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion.json'; //모든 챔피언 정보
 
 //http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/<champion_name>.json
 export const CHAMPION_DATA =
   'http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/.json'; //특정 챔피언 정보
+//https://ddragon.leagueoflegends.com/cdn/11.6.1/img/champion/<champion_name>.png
+export const CHAMPION_ICON_IMG =
+  'https://ddragon.leagueoflegends.com/cdn/11.6.1/img/champion/';
