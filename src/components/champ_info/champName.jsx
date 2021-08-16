@@ -7,6 +7,7 @@ const NameDiv = styled.div`
 `;
 
 const ChampNameDiv = styled.div`
+  font-size: 13px;
   overflow: hidden;
   text-overflow: ellipsis;
   color: #777;

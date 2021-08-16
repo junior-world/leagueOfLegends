@@ -1,6 +1,11 @@
 import axios from 'axios';
 import * as config from '../../config';
 
+/**
+ * riot Rotation API 요청
+ * 요청한 API의 data중 freeChampionIds(금주의 로테이션 챔피언 데이터)만을 가져와 반환
+ * @returns  freeChampionIds -> 금주의 로테이션 챔피언의 key값
+ */
 export const GetRotationAPI = async () => {
   const {
     data: { freeChampionIds },

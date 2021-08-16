@@ -14,6 +14,7 @@ const Title = styled.p`
   font-weight: bold;
   font-style: italic;
   margin: 0px;
+  margin-left: 20px;
 `;
 
 function RotationHeader(props) {

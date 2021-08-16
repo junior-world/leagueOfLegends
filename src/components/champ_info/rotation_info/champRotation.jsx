@@ -22,20 +22,20 @@ const RotationMain = styled.div`
 
 const ChampItem = styled.div`
   width: 90px;
-  height: 120px;
+  height: 110px;
   white-space: nowrap;
   display: flex;
   flex-direction: column;
 `;
 
 function ChampRotation(props) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isRotationLoading, setIsRotationLoading] = useState(false);
   const [rotationData, setRotationData] = useState([]);
 
   useEffect(() => {
     GetRotationData().then((res) => {
       setRotationData(res);
-      setIsLoading(true);
+      setIsRotationLoading(true);
     });
   }, []);
 
@@ -43,7 +43,7 @@ function ChampRotation(props) {
     <RotationSection>
       <RotationHeader />
       <RotationMain>
-        {isLoading &&
+        {isRotationLoading &&
           rotationData.map((rotationObject, i) => {
             return (
               <ChampItem key={rotationObject.id + rotationObject.name}>

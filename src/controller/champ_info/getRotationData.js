@@ -1,6 +1,15 @@
 import GetAllChampData from './getAllChampData';
 import { GetRotationAPI } from './getRotationAPI';
 
+/**
+ * GetAllChampData() -> 전체 챔피언의 데이터
+ * GetRotationAPI() -> 금주의 로테이션 챔피언의 key값
+ * 전체 챔피언의 key값과 금주의 로테이션 챔피언의 key값을 이진 탐색 기법을 통하여 로테이션 챔피언의 key값으로
+ * 챔피언의 id와 name을 배열로 넣어서 반환
+ * id : 챔피언의 상세 정보를 요청할 수 있는 key로 사용 가능. 해당 챔피언의 정보를 제공해주는 페이지에서 Link에 파라미터로 넘겨주어 사용할 예정
+ * name : 챔피언 정보 page에서 사용하기 위한 name
+ * @returns ratationData -> 배열 객체 -> [{id: allChampionData[key].id, name: allChampionData[key].name}]
+ */
 const GetRotationData = async () => {
   let rotationAPI;
   const allChampionData = await GetAllChampData();
@@ -25,7 +34,7 @@ const GetRotationData = async () => {
       });
     }
   }
-  //가나다순 정렬
+  //가나다순 정렬 실행
   rotationData = rotationData.sort(SortDesc);
   return rotationData;
 };
