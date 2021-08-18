@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Rank from '../../../controller/ranking/getLadder';
+import icon from '../../../controller/ranking/getProfileIcon';
 
 const RankUser = styled.div`
     margin: 0 auto;
@@ -22,17 +24,11 @@ const LiStyle = styled.li`
     padding-inline-start: 40px;
 `;
 
-// const ChTest = () => {
-//     useEffect(() => {
-//         axios.get(
-//             `${config.CHALLENGER_LEAGE}?api_key=${process.env.REACT_APP_API_KEY}`,
-//         );
-//     }, []);
-// };
+const UserName = styled.div``;
 
 function LadderPage() {
-    const [isRotationLoading, setIsRotationLoading] = useState(false);
-    const [rotationData, setRotationData] = useState([]);
+    const [isRankLoading, setIsRankLoading] = useState(false);
+    const [rankData, setRankData] = useState([]);
     // useEffect(() => {
     //     Getrank().then((res) => {
     //         setRotationData(res);
@@ -40,17 +36,27 @@ function LadderPage() {
     //     });
     // }, []);
 
+    useEffect(() => {
+        Rank().then((res) => {
+            setRankData(res);
+            setIsRankLoading(true);
+        });
+        icon().then((res) => {});
+    }, []);
+
     return (
         <RankUser>
             <UlStyle>
                 <LiStyle>
-                    {isRotationLoading &&
-                        rotationData.map((rotationObject, i) => {
-                            return { rotationObject };
-                        })}
-                    {/* <span>
-                            <ChTest></ChTest>
-                        </span> */}
+                    <div>1</div>
+                    {/* {isRankLoading &&
+                        rankData
+                            .map((rankObject, i) => {
+                                return <div>{rankObject.summonerName}</div>;
+                            })
+                            .filter((c, i, a) => {
+                                return i < 5;
+                            })} */}
                 </LiStyle>
             </UlStyle>
         </RankUser>

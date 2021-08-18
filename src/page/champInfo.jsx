@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import NavBar from '../components/main/NavBar';
 import ChampRotation from '../components/champ_info/rotation_info/champRotation';

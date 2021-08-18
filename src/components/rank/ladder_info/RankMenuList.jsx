@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
 import { MdSearch } from 'react-icons/md';
-import { Route, Link } from 'react-router-dom';
-import Rank from '../../../controller/ranking/getLadder';
+import { Link } from 'react-router-dom';
 
 const RankMenu = styled.div`
     margin: 0 auto;
@@ -55,41 +53,19 @@ const Button = styled.button`
     background-color: transparent;
 `;
 
-const ListButton = styled.button`
-    margin: 0 auto;
-`;
-
 const RLink = styled(Link)`
     text-decoration: none;
     margin-right: 1em;
 `;
 
-const Buttons = () => {
-    const history = useHistory();
-
-    return (
-        <div>
-            <RLink to='/ranking/ladder'>랭킹</RLink>
-            <RLink to='/ranking/champion'>챔피언</RLink>
-            <ListButton onClick={() => history.push('/ranking/level')}>
-                레벨
-            </ListButton>
-        </div>
-    );
-};
-
 const RankMenuList = () => {
-    useEffect(() => {
-        Rank().then((res) => {
-            console.log(res);
-        });
-    }, []);
-
     return (
         <RankMenu>
             <OlStyle>
                 <LiStyle>
-                    <Buttons></Buttons>
+                    <RLink to='/ranking/ladder'>랭킹</RLink>
+                    <RLink to='/ranking/champion'>챔피언</RLink>
+                    <RLink to='/ranking/level'>레벨</RLink>
                 </LiStyle>
             </OlStyle>
             <Form>
