@@ -10,6 +10,8 @@ const HeaderDiv = styled.div`
   width: 1000px;
   // border: solid 1px #e9eff4;
   margin-top: 80px;
+  border-bottom: 1px solid #d5d0d0;
+  padding-bottom: 20px;
 `;
 
 const ImgDiv = styled.div`

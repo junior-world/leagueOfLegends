@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import RotationHeader from './rotationHeader';
+import DefaultHeader from '../defaultHeader';
 import GetRotationData from '../../../controller/champ_info/getRotationData';
 import ChampImg from '../champImg';
 import * as config from '../../../config';
@@ -46,7 +46,7 @@ function ChampRotation(props) {
 
   return (
     <RotationSection>
-      <RotationHeader />
+      <DefaultHeader headerTitle={'- 금주의 로테이션 챔피언'} />
       <RotationMain>
         {isRotationLoading &&
           rotationData.map((rotationObject, i) => {
