@@ -13,7 +13,7 @@ export const ALL_CHAMPION_DATA =
 
 //http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/<champion_name>.json
 export const CHAMPION_DATA =
-  'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/.json'; //특정 챔피언 정보
+  'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/'; //특정 챔피언 정보
 //https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/<champion_name>.png
 export const CHAMPION_ICON_IMG =
   'https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/';
