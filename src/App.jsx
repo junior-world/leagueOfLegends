@@ -1,14 +1,16 @@
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
-import Main from './page/main';
-import ChampInfo from './page/champInfo';
+import main from './page/main';
+import champInfo from './page/champInfo';
+import SearchResult from './page/Search_result';
 
 function App() {
   return (
     <div className='App'>
       <Switch>
-        <Route path='/' component={Main} exact></Route>
-        <Route path='/championInfo' component={ChampInfo} exact></Route>
+        <Route path='/' component={main} exact></Route>
+        <Route path='/championInfo' component={champInfo} exact></Route>
+        <Route exact path='/summoners/:summonersName' component = {SearchResult}></Route>
       </Switch>
     </div>
   );
