@@ -12,6 +12,7 @@ const Header = styled.div`
 const Title = styled.p`
   font-weight: bold;
   font-style: italic;
+  font-size: 19px;
   margin: 0px;
   margin-left: 20px;
 `;

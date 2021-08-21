@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import NavBar from '../components/main/NavBar';
 import getDetailChampData from '../controller/detail_champ/getDetailChampData';
 import DetailChampHeader from '../components/detail_champ/detailChampHeader';
 import SkillInfo from '../components/detail_champ/skill_info/skillInfo';
+import SkinInfo from '../components/detail_champ/skin_info/skinInfo';
 import styled from 'styled-components';
 
 const MainContents = styled.div`
@@ -13,19 +14,22 @@ const MainContents = styled.div`
   align-items: center;
 `;
 /* DetailChamp(챔피언 상세 정보) -> SkillInfo -> SkillContents -> SkillContent(passive, q, w, e, r) ->
- * SkillImg, SkillTtile, SkillCoolDown, SkillToolTip, SkillCost, SkillRange 로 컴포넌트가 깊어짐
- * contextAPI를 사용하여 효율적으로 state, props 관리
+ * SkillImg, SkillTtile, SkillCoolDown, SkillToolTip, SkillCost, SkillRange
  */
+export const skillsContext = createContext({
+  champSpells: [], //spells -> 배열 안에 q,w,e,r 객체 존재
+  champPassive: {}, //passive -> 따로 객체로 존재
+});
 
 function DetailChamp(props) {
   const [detailLoading, setDetailLoading] = useState(false);
   const params = useParams();
-  const DetailChampData = useRef();
+  const detailChampData = useRef();
 
   useEffect(() => {
     getDetailChampData(params.champion_id)
       .then((res) => {
-        DetailChampData.current = res;
+        detailChampData.current = res;
         setDetailLoading(true);
       })
       .catch((rej) => {
@@ -36,15 +40,26 @@ function DetailChamp(props) {
   return (
     <div>
       <NavBar />
-      <MainContents>
-        {detailLoading && (
+
+      {detailLoading && (
+        <MainContents>
           <DetailChampHeader
-            champId={DetailChampData.current.id}
-            champName={DetailChampData.current.name}
-            champPosition={DetailChampData.current.tags}></DetailChampHeader>
-        )}
-        <SkillInfo />
-      </MainContents>
+            champId={detailChampData.current.id}
+            champName={detailChampData.current.name}
+            champPosition={detailChampData.current.tags}></DetailChampHeader>
+          <SkinInfo
+            champId={detailChampData.current.id}
+            champSkins={detailChampData.current.skins}
+          />
+          <skillsContext.Provider
+            value={{
+              champSpells: detailChampData.current.spells,
+              champPassive: detailChampData.current.passive,
+            }}>
+            <SkillInfo />
+          </skillsContext.Provider>
+        </MainContents>
+      )}
     </div>
   );
 }

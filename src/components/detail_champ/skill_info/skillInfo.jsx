@@ -5,9 +5,17 @@ import SkillContents from './skillContents';
 const SkillSection = styled.div`
   display: flex;
   width: 1000px;
-  border: solid 1px #e9eff4;
-  margin-top: 80px;
+
+  margin-top: 30px;
   flex-direction: column;
+  font-size: 13px;
+  margin-bottom: 50px;
+`;
+
+const DescriptionText = styled.div`
+  display: flex;
+  color: #ffc659;
+  font-weight: 800;
 `;
 
 function SkillInfo(props) {
@@ -15,6 +23,12 @@ function SkillInfo(props) {
     <SkillSection>
       <DefaultHeader headerTitle={'- 스킬 정보'} />
       <SkillContents />
+      <DescriptionText>
+        [?]로 표시된 값은 Riot API 에서 제공하지 않는 데이터입니다.
+      </DescriptionText>
+      <DescriptionText>
+        정확한 수치는 LOL클라이언트에서 확인 하실 수 있습니다.
+      </DescriptionText>
     </SkillSection>
   );
 }

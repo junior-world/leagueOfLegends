@@ -15,6 +15,14 @@ const getDetailChampData = async (championId) => {
       }
     });
 
+  /**
+   * 기본 스킨 이름이 default 이기 때문에 해당 챔피언 이름으로 데이터 가공
+   */
+  data[championId].skins[0].name =
+    data[championId].skins[0].name === 'default'
+      ? data[championId].name
+      : '기본 스킨';
+
   //<br /> 태그가 있는 경우 엔터로 바꿈
   data[championId].spells = ToolTipSlicing(
     data[championId].spells,
@@ -37,10 +45,13 @@ const getDetailChampData = async (championId) => {
     '?',
   );
 
-  console.log(data[championId].spells[0].tooltip);
-  console.log(data[championId].spells[1].tooltip);
-  console.log(data[championId].spells[2].tooltip);
-  console.log(data[championId].spells[3].tooltip);
+  data[championId].passive.description = ToolTipSlicing(
+    data[championId].passive.description,
+    '<',
+    '>',
+    '',
+  );
+
   return data[championId];
 };
 
@@ -53,20 +64,30 @@ const getDetailChampData = async (championId) => {
  * @param {*} changeWord 바꾸고자 하는 값
  * @returns 바꾼 후의 배열 객체
  */
-const ToolTipSlicing = (spells, start, end, changeWord) => {
+const ToolTipSlicing = (words, start, end, changeWord) => {
   const length = end.length;
-  return spells.map((spell) => {
-    while (spell.tooltip.indexOf(start) !== -1) {
-      spell.tooltip = spell.tooltip.replace(
-        spell.tooltip.slice(
-          spell.tooltip.indexOf(start),
-          spell.tooltip.indexOf(end) + length,
-        ),
+  if (typeof words === 'object') {
+    return words.map((word) => {
+      while (word.tooltip.indexOf(start) !== -1) {
+        word.tooltip = word.tooltip.replace(
+          word.tooltip.slice(
+            word.tooltip.indexOf(start),
+            word.tooltip.indexOf(end) + length,
+          ),
+          changeWord,
+        );
+      }
+      return word;
+    });
+  } else {
+    while (words.indexOf(start) !== -1) {
+      words = words.replace(
+        words.slice(words.indexOf(start), words.indexOf(end) + length),
         changeWord,
       );
     }
-    return spell;
-  });
+    return words;
+  }
 };
 
 export default getDetailChampData;
