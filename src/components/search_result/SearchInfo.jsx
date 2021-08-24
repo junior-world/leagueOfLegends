@@ -55,7 +55,6 @@ const apiKEY = process.env.REACT_APP_API_KEY;
 
 const SearchInfo = (props) => {
 
-    
     const {searchInfo } = props   
     const [summonnerTier, setSummonnerTier] = useState();
 

@@ -30,6 +30,7 @@ export const RiotContext = React.createContext({
     matchLists : []
   });
 
+  
 
 const SearchMain = (props) => {
     const {searchInfo} = useContext(ChamSumContext)

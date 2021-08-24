@@ -52,29 +52,21 @@ const MatchLists = (props) => {
 
     }
 
-        
-   
-
 
  
         return (
             <MainContents>
                 <Main>
-                    {/* { matchInfo &&
-                        // <List>
-                        //     <MatchInfo  matchInfo={matchInfo} searchInfo={searchInfo} /> 
-                        // </List>
-                    } */}
                     { matchInfo && matchInfo.map( matchInfo => (
-                        <MatchInfo  matchInfo={matchInfo} searchInfo={searchInfo} />))
+                        <MatchInfo key={matchInfo.gameId} matchInfo={matchInfo} searchInfo={searchInfo} />))
                     }
                     { run ?  <Button onClick = {onClickNewMatchLists}>더 보기</Button> : <Button > 로딩,,,</Button> }
                 </Main>
-
+                { matchInfo &&
                 <MatchInfoContext.Provider value ={{matchInfo}}>
                      <SubContents /> 
                 </MatchInfoContext.Provider>
-               
+                }
        
             </MainContents>
         );
@@ -98,7 +90,6 @@ export default MatchLists;
         matchLists.map( (matchList) => { 
             return axios.get(`${MATCHS_URL}/${matchList.gameId}?api_key=${apiKEY}`) 
             .then(res => {
-                    console.log(res)
                     return  res.data;
             })
         })
