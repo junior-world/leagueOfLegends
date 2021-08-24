@@ -17,19 +17,25 @@ const P = styled.p`
         color: #FF3333;
     }
 `
-
+const InfoList = styled.div`
+    margin-bottom: 0.5rem;
+    box-shadow: 6px 0px 19px 1px rgb(0 0 0 / 20%);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
 const Col = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0.5rem;
+    
     justify-content: center;
 `
 const GameInfo = styled(Col)`
     width:95px;
 `
 const Bar = styled.div`
-    width:8px;
-    height: 100%;
+    width:15px;
     background-color: ${p => p.win ? '#0066FF':'#FF3333'};
     border-radius: 10px 0 0 10px;
     
@@ -47,6 +53,7 @@ const Stats = styled(Col)`
 const Row = styled.div`
     display: flex;
     height: 132px;
+    margin-left: 8px;
 `
 const Each = styled.div`
     display: flex;
@@ -57,11 +64,9 @@ const Each = styled.div`
 
 `
 const Detailed = styled.div`
-        width:20px;
-        height: 100%;
         background-color: ${p => p.win ? '#0066FF':'#FF3333'};
         border-radius: 0 10px 10px 0;
-        width: 20px;
+        width: 15px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -79,15 +84,11 @@ const Main = styled.div`
 `
 const List = styled(Main)`
     margin-bottom: 0.5rem;
-    box-shadow: 6px 0px 19px 1px rgb(0 0 0 / 20%);
     border-radius: 10px;
 `
 const DetailedHeader = styled.div`
     margin-bottom : 1rem;
 `
-
-
-
 
 
 // 컴포넌트
@@ -134,55 +135,23 @@ const MatchInfo = (props) => {
     
       // 적팀만 뽑아옴
     const enermyTeam =  totalParticipants.filter( participant => participant.teamId !== myPlayInfo.teamId);
-
     
-    let maxDamage=0;
-
-    const setScore = (teams )=>{
-
-        const kda = { 
-            hap : 0,
-            death : 0,
-            assist : 0,
-            totalGold : 0,
-
-        }
-
-        teams.forEach( team => {
-            kda.hap +=  team.stats.kills;
-            kda.death += team.stats.deaths;
-            kda.assist += team.stats.assists;
-            kda.totalGold += team.stats.goldEarned;
-
-            if(maxDamage < team.stats.totalDamageDealtToChampions){
-                maxDamage = team.stats.totalDamageDealtToChampions;
-            }
-        });
-        return kda;
-    }
     
+// 2개의 팀의 데미지의 최대를 뽑기 위해
+   let maxDamage=0;
+   maxDamage = setMaxdamage(myTeam,enermyTeam);
+
+    // team별 총 kda
     const myTeamKda = setScore(myTeam)
-
     const enermyTeamKda = setScore(enermyTeam)
     
-    const getTeamMember = (teams) =>{
-        return (participantIdentities.filter(idt => {
-                for(const team of teams){
-                    if(team.participantId === idt.participantId){
-                        return  idt;
-                    }
-                }
-                return "";
-            })
-        )
-    }
+   
     
     //적팀들의 닉네임과 아이디정보들
-    const enermyInfos = getTeamMember(enermyTeam)
-
-
+    const enermyInfos = getTeamMember(enermyTeam , participantIdentities)
     //내팀들의 닉네임과 아이디정보들
-    const myTeamInfos = getTeamMember(myTeam)
+    const myTeamInfos = getTeamMember(myTeam , participantIdentities)
+
 
     const items1 = {
         item0 : myPlayInfo.stats.item0,
@@ -247,11 +216,10 @@ const MatchInfo = (props) => {
     const clickDetailed = (event) =>{
         event.preventDefault();
             setDetail(!detail);
-        
     }
   
     return (
-        <Col>
+        <InfoList>
             <List>
                 <Bar win={myPlayInfo.stats.win} >
 
@@ -306,9 +274,10 @@ const MatchInfo = (props) => {
 
 
                 <Detailed win={myPlayInfo.stats.win} >
-                {detail ? <Button onClick={clickDetailed}>▲</Button> : <Button onClick={clickDetailed}>▼</Button>}
+                    {detail ? <Button onClick={clickDetailed}>▲</Button> : <Button onClick={clickDetailed}>▼</Button>}
                 </Detailed>
             </List>
+
             {detail && 
             <div>
                 <DetailedHeader>
@@ -328,10 +297,75 @@ const MatchInfo = (props) => {
                 </DetailedHeader>
 
             </div>
-            
             }
-        </Col>
+        </InfoList>
     );
 };
 
 export default MatchInfo;
+
+
+
+/**
+ * 
+ * @param {현재 팀의 정보 my , enermy} teams 
+ * @param {* 모든 플레이어들의 아이디정보,닉네임 등등} participantIdentities 
+ * @returns 
+ */
+const getTeamMember = (teams, participantIdentities) =>{
+    return (participantIdentities.filter(idt => {
+            for(const team of teams){
+                if(team.participantId === idt.participantId){
+                    return  idt;
+                }
+            }
+            return "";
+        })
+    )
+}
+
+
+
+   /**
+    * 
+    * @param {*현재 팀의 정보 my , enermy} teams 
+    * @returns {팀별 전체 kda} kda
+    */
+    const setScore = (teams)=>{
+
+        const kda = { 
+            hap : 0,
+            death : 0,
+            assist : 0,
+            totalGold : 0,
+
+        }
+
+        teams.forEach( team => {
+            kda.hap +=  team.stats.kills;
+            kda.death += team.stats.deaths;
+            kda.assist += team.stats.assists;
+            kda.totalGold += team.stats.goldEarned;
+
+        
+        });
+        return kda;
+    }
+
+    const setMaxdamage = (myTeams, enermyTeams) =>{
+        let maxDamage = 0 ;
+
+        myTeams.forEach( team => {
+            if(maxDamage < team.stats.totalDamageDealtToChampions){
+                maxDamage = team.stats.totalDamageDealtToChampions;
+            }
+        });
+
+        enermyTeams.forEach( team => {
+            if(maxDamage < team.stats.totalDamageDealtToChampions){
+                maxDamage = team.stats.totalDamageDealtToChampions;
+            }
+        });
+        return maxDamage;
+       
+    }

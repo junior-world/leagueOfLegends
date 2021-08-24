@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState}from 'react';
 import styled from 'styled-components';
 
 
@@ -18,7 +18,10 @@ const Div = styled.div`
     margin-left: 0.5rem;
 `
 
+
 const SearchNav = () => {
+  
+
     return (
         <Nav>
             <Div>

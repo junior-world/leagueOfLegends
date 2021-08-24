@@ -1,36 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState ,useContext} from 'react'
 import axios from 'axios';
 import styled from 'styled-components';
-import {CHAMPION_MASTERIES} from '../../config'
+import {CHAMPION_MASTERIES ,MATCHLISTS_URL} from '../../config'
 import Masteries from './Masteries';
+import {ChamSumContext} from '../../page/Search_result';
+import {RiotContext} from './SearchMain';
+import MatchLists from './MatchLists';
+import RecentLists from './RecentLists';
 
 
 const SubContent = styled.div`
-    margin: 0 auto;
+    margin-left: 1rem;
     display: flex;
     flex-direction: column;
 `
 
+const ChampionMasteries = styled.div`
+    display: flex;
+` 
+const RecentMatchInfo = styled.div`
+    display: flex;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+`
 
-const Row = styled.div`
-    display: flex;
-    width: 200px;
-    height: 300px;
-    border: 1px solid black;
-`
-const SuperMaster = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-   
-`
+
 
 const apiKEY = process.env.REACT_APP_API_KEY; 
 
-function SubContents({searchInfo , champSummury}) {
+function SubContents() {
 
     const [masteries,setMasteries] = useState();
 
+    const {searchInfo,champSummury } = useContext(ChamSumContext)
+    
     useEffect(()=>{
         axios.get(`${CHAMPION_MASTERIES}${searchInfo.id}?api_key=${apiKEY}`)
         .then(res => {
@@ -43,18 +46,19 @@ function SubContents({searchInfo , champSummury}) {
         })
     },[searchInfo.id])    
 
+      
     
     return (
         <SubContent>
-                <SubContent>
-                    <SuperMaster>
-                        {masteries && masteries.map(mastery => <Masteries key={mastery.championId} mastery={mastery} champSummury={champSummury}/> )
-                        }
-                    </SuperMaster>           
-                        
-                </SubContent>
+                <ChampionMasteries>
+                        {masteries && masteries.length >= 3 && masteries.map(mastery => 
+                            <Masteries key={mastery.championId} mastery={mastery} champSummury={champSummury}/> )
+                        }    
+                </ChampionMasteries>
                 
-                
+                <RecentMatchInfo>
+                    <RecentLists />
+                </RecentMatchInfo>
         </SubContent>
     )
 }

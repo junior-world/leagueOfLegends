@@ -39,7 +39,6 @@ function DetailedGame({user, myTeamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}
     const {spellSummury,runsSummury} = useContext(RiotContext);
     const {champSummury} = useContext(ChamSumContext);
 
-
     const teamInfo = myTeamInfos.find( team =>team.participantId === user.participantId);
     
 
@@ -119,8 +118,8 @@ function DetailedGame({user, myTeamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}
             </Row> 
             <Row>
                 <Kda>
-                    <span>{user.stats.totalMinionsKilled} cs</span>
-                    <span>분당 {(user.stats.totalMinionsKilled/(matchInfo.gameDuration/60).toFixed()).toFixed(1)} </span>
+                    <span>{user.stats.totalMinionsKilled +user.stats.neutralMinionsKilled} cs</span>
+                    <span>분당 {((user.stats.totalMinionsKilled +user.stats.neutralMinionsKilled)/(matchInfo.gameDuration/60).toFixed()).toFixed(1)} </span>
                 </Kda>
             </Row>
             <Row>
