@@ -3,21 +3,30 @@ import styled from 'styled-components';
 
 const ImgDiv = styled.div`
   display: flex;
-  &:hover {
-    transform: scale(1.4);
+  &: hover {
+    transform: ${(props) =>
+      props.detailDesign === 'detailChamp' ? '' : 'scale(1.4)'};
   }
 `;
 
 const ImgStyle = styled.img`
-  width: 82px;
-  height: 82px;
+  width: ${(props) =>
+    props.detailDesign === 'detailChamp' ? '150px' : '82px'};
+  height: ${(props) =>
+    props.detailDesign === 'detailChamp' ? '150px' : '82px'};
   margin-left: 8px;
 `;
-
+/**
+ * detailDesign -> detailChamp 일 때는 챔피언 상세 정보 page
+ * 없을 때는 챔피언 정보 page
+ */
 function ChampImg(props) {
   return (
-    <ImgDiv>
-      <ImgStyle src={props.imagePath} alt=''></ImgStyle>
+    <ImgDiv detailDesign={props.detailDesign}>
+      <ImgStyle
+        src={props.imagePath}
+        detailDesign={props.detailDesign}
+        alt=''></ImgStyle>
     </ImgDiv>
   );
 }

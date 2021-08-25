@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import RotationHeader from './rotationHeader';
+import DefaultHeader from '../defaultHeader';
 import GetRotationData from '../../../controller/champ_info/getRotationData';
 import ChampImg from '../champImg';
 import * as config from '../../../config';
 import ChampName from '../champName';
+import { Link } from 'react-router-dom';
 
 const RotationSection = styled.div`
   display: flex;
@@ -28,6 +29,10 @@ const ChampItem = styled.div`
   flex-direction: column;
 `;
 
+const HLink = styled(Link)`
+  text-decoration: none;
+`;
+
 function ChampRotation(props) {
   const [isRotationLoading, setIsRotationLoading] = useState(false);
   const [rotationData, setRotationData] = useState([]);
@@ -41,23 +46,30 @@ function ChampRotation(props) {
 
   return (
     <RotationSection>
-      <RotationHeader />
+      <DefaultHeader headerTitle={'- 금주의 로테이션 챔피언'} />
       <RotationMain>
         {isRotationLoading &&
           rotationData.map((rotationObject, i) => {
             return (
-              <ChampItem key={rotationObject.id + rotationObject.name}>
-                <ChampImg
-                  key={rotationObject.id}
-                  imagePath={
-                    config.CHAMPION_ICON_IMG + rotationObject.id + '.png'
-                  }
-                />
-                <ChampName
-                  key={rotationObject.name} //lol 챔피언 이름은 중복 가능성이 없으므로 key로 사용
-                  champName={rotationObject.name}
-                />
-              </ChampItem>
+              <HLink
+                key={rotationObject.id + rotationObject.name}
+                to={{
+                  pathname: '/championInfo/' + rotationObject.id,
+                  state: { championId: rotationObject.id },
+                }}>
+                <ChampItem key={rotationObject.id + rotationObject.name}>
+                  <ChampImg
+                    key={rotationObject.id}
+                    imagePath={
+                      config.CHAMPION_ICON_IMG + rotationObject.id + '.png'
+                    }
+                  />
+                  <ChampName
+                    key={rotationObject.name} //lol 챔피언 이름은 중복 가능성이 없으므로 key로 사용
+                    champName={rotationObject.name}
+                  />
+                </ChampItem>
+              </HLink>
             );
           })}
       </RotationMain>

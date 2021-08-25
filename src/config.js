@@ -13,8 +13,9 @@ export const CHAMPIONS_DATA =
 
 //http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/<champion_name>.json
 export const CHAMPION_DATA =
-  'http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/.json'; //특정 챔피언 정보
+  'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/'; //특정 챔피언 정보
 
+//https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/<champion_name>.png
 export const CHAMPION_ICON_IMG =
   'https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/';
 
@@ -56,3 +57,15 @@ export const CHAMPION_MASTERIES = `/lol/champion-mastery/v4/champion-masteries/b
 //숙련도 레벨별 문양 , 배너
 // https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-profiles/global/default/mastery_level2.png
 // https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-profiles/global/default/mastery_level2banner.png
+
+//http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/<champion_name><Q/W/E/R>.png
+export const CHAMPION_SKILL_IMG =
+  'http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/';
+
+//http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/Braum_Passive.png  패시브는 이미지도 따로 존재....
+export const CHAMPION_PASSIVE_IMG =
+  'http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/';
+
+//https://ddragon.leagueoflegends.com/cdn/img/champion/loading/<champion_name>_<skins.num>.jpg
+export const CHAMPION_SKIN_LOADING_IMG =
+  'https://ddragon.leagueoflegends.com/cdn/img/champion/loading/';
