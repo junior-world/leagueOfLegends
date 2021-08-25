@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ChampImg from '../champ_info/champImg';
 import ChampName from '../champ_info/champName';
@@ -25,7 +25,52 @@ const NamePositionDiv = styled.div`
   margin-left: 15px;
 `;
 
+const ChampStoryButton = styled.button`
+  left: 460px;
+  top: 120px;
+  position: relative;
+  width: 150px;
+  background: #1aab8a;
+  color: #fff;
+  border: none;
+  height: 35px;
+  cursor: pointer;
+`;
+
+const Test = styled.div`
+  position: relative;
+`;
+
+const HoverDiv = styled.div`
+  width: 800px;
+  height: 177px;
+  margin-bottom: -200px;
+  position: absolute;
+  clear: both;
+  color: white;
+  background-color: rgb(26, 29, 29);
+  right: -786px;
+  top: -60px;
+`;
+const StoryHeader = styled.div`
+  color: #ffc659;
+  margin-bottom: 8px;
+  margin-top: 8px;
+`;
+const StoryHover = styled.div`
+  color: #777;
+`;
+
 function DetailChampHeader(props) {
+  const [viewStory, setViewStory] = useState(false);
+  const handleMouseOver = (e) => {
+    setViewStory(true);
+  };
+
+  const handleMouseLeave = (e) => {
+    setViewStory(false);
+  };
+
   return (
     <HeaderDiv>
       <ImgDiv>
@@ -38,6 +83,19 @@ function DetailChampHeader(props) {
         <ChampName champName={props.champName} detailDesign={'detailChamp'} />
         <ChampPosition champPosition={props.champPosition} />
       </NamePositionDiv>
+      <ChampStoryButton
+        onMouseEnter={handleMouseOver}
+        onMouseLeave={handleMouseLeave}>
+        챔피언 배경
+      </ChampStoryButton>
+      {viewStory && (
+        <Test>
+          <HoverDiv>
+            <StoryHeader>챔피언 배경</StoryHeader>
+            <StoryHover>{props.champLore}</StoryHover>
+          </HoverDiv>
+        </Test>
+      )}
     </HeaderDiv>
   );
 }

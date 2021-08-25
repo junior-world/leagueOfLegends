@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const ImgStyle = styled.img`
   width: 200px;
   height: 400px;
+  cursor: pointer;
 `;
 /**
  * detailDesign -> detailChamp 일 때는 챔피언 상세 정보 page

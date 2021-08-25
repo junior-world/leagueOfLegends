@@ -5,6 +5,7 @@ import getDetailChampData from '../controller/detail_champ/getDetailChampData';
 import DetailChampHeader from '../components/detail_champ/detailChampHeader';
 import SkillInfo from '../components/detail_champ/skill_info/skillInfo';
 import SkinInfo from '../components/detail_champ/skin_info/skinInfo';
+import TipsInfo from '../components/detail_champ/tips_info/tipsInfo';
 import styled from 'styled-components';
 
 const MainContents = styled.div`
@@ -46,7 +47,8 @@ function DetailChamp(props) {
           <DetailChampHeader
             champId={detailChampData.current.id}
             champName={detailChampData.current.name}
-            champPosition={detailChampData.current.tags}></DetailChampHeader>
+            champPosition={detailChampData.current.tags}
+            champLore={detailChampData.current.lore}></DetailChampHeader>
           <SkinInfo
             champId={detailChampData.current.id}
             champSkins={detailChampData.current.skins}
@@ -58,6 +60,9 @@ function DetailChamp(props) {
             }}>
             <SkillInfo />
           </skillsContext.Provider>
+          <TipsInfo
+            allyTips={detailChampData.current.allytips}
+            enemyTips={detailChampData.current.enemytips}></TipsInfo>
         </MainContents>
       )}
     </div>
