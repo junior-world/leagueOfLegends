@@ -7,6 +7,7 @@ import * as config from '../../config';
 
 const HeaderDiv = styled.div`
   display: flex;
+  position: relative;
   width: 1000px;
   // border: solid 1px #e9eff4;
   margin-top: 80px;
@@ -26,9 +27,9 @@ const NamePositionDiv = styled.div`
 `;
 
 const ChampStoryButton = styled.button`
-  left: 460px;
+  left: 790px;
   top: 120px;
-  position: relative;
+  position: absolute;
   width: 150px;
   background: #1aab8a;
   color: #fff;
@@ -37,7 +38,7 @@ const ChampStoryButton = styled.button`
   cursor: pointer;
 `;
 
-const Test = styled.div`
+const ParentDiv = styled.div`
   position: relative;
 `;
 
@@ -49,7 +50,7 @@ const HoverDiv = styled.div`
   clear: both;
   color: white;
   background-color: rgb(26, 29, 29);
-  right: -786px;
+  right: -268px;
   top: -60px;
 `;
 const StoryHeader = styled.div`
@@ -83,18 +84,18 @@ function DetailChampHeader(props) {
         <ChampName champName={props.champName} detailDesign={'detailChamp'} />
         <ChampPosition champPosition={props.champPosition} />
       </NamePositionDiv>
+
       <ChampStoryButton
         onMouseEnter={handleMouseOver}
         onMouseLeave={handleMouseLeave}>
         챔피언 배경
       </ChampStoryButton>
+
       {viewStory && (
-        <Test>
-          <HoverDiv>
-            <StoryHeader>챔피언 배경</StoryHeader>
-            <StoryHover>{props.champLore}</StoryHover>
-          </HoverDiv>
-        </Test>
+        <HoverDiv>
+          <StoryHeader>챔피언 배경</StoryHeader>
+          <StoryHover>{props.champLore}</StoryHover>
+        </HoverDiv>
       )}
     </HeaderDiv>
   );
