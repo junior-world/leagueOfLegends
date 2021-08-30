@@ -7,22 +7,29 @@ import * as config from '../../config';
  * @returns 챌린저 티어의 정렬된 entries 배열 반환
  */
 export const GetRankingAPI = async () => {
-    const {
-        data: { entries },
-    } = await axios
-        .get(
-            `${config.CHALLENGER_LEAGE}?api_key=${process.env.REACT_APP_API_KEY}`,
-        )
-        .catch((Error) => {
-            console.log(Error);
-        });
-
-    //리그포인트로 내림차순 정렬
-    entries.sort(function (a, b) {
-        return a.leaguePoints < b.leaguePoints ? 1 : -1;
+  const {
+    data: { entries },
+  } = await axios
+    .get(`${config.CHALLENGER_LEAGE}?api_key=${process.env.REACT_APP_API_KEY}`)
+    .catch((Error) => {
+      console.log(Error);
     });
 
-    return entries;
+  //리그포인트로 내림차순 정렬
+  entries.sort(function (a, b) {
+    return a.leaguePoints < b.leaguePoints ? 1 : -1;
+  });
+
+  //챌린저 티어 구별 위해 삽입
+  for (const key in entries) {
+    entries[key].tier = 'CHALLENGER';
+  }
+
+  const ss = entries.filter((v, i) => {
+    return i < 5;
+  });
+
+  return ss;
 };
 
 export default GetRankingAPI;
