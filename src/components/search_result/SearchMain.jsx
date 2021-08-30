@@ -2,9 +2,9 @@ import React,{useState, useEffect,useContext} from 'react';
 import styled from 'styled-components';
 import axios from 'axios'
 import {MATCHLISTS_URL,SPELL_DATA, RUNS_DATA} from '../../config.js';
-import MatchLists from './MatchLists';
+import MatchLists from './Match/List/MatchLists';
 import {ChamSumContext} from '../../page/Search_result';
-import SubContents from './SubContents';
+import SubContents from './Match/subcontents/SubContents';
 
 const Main = styled.main`
     display: flex;
@@ -73,10 +73,10 @@ const SearchMain = (props) => {
         
         async  function matchLists (){ 
 
-            const res = await axios.get(`${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${count+5}&beginIndex=${count}&api_key=${apiKEY}`)    
-            setCount(count+5)
+            const res = await axios.get(`${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${count+10}&beginIndex=${count}&api_key=${apiKEY}`)    
+            setCount(count+10)
             setMatchLists(res.data.matches)
-        
+            
         }
 
         matchLists();
@@ -84,15 +84,15 @@ const SearchMain = (props) => {
     }, [searchInfo.accountId])
   
 
-    const onClickHandler = (e) =>{
+    const onClickHandler =  async (e) =>{
         e.preventDefault();
+
         if(count > 15){
             return ;
         }else{
-            axios.get(`${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${count+5}&beginIndex=${count}&api_key=${apiKEY}`)
-            .then(res => {
-                setNewMatchLists(res.data.matches);
-            })
+            const res =await axios.get(`${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${count+5}&beginIndex=${count}&api_key=${apiKEY}`)
+            setNewMatchLists(res.data.matches);
+            
         }
         setCount(count+5);
     }

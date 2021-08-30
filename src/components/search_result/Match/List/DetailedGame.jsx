@@ -1,9 +1,11 @@
 import React,{useContext} from 'react'
 import GameTeam from './GameTeam';
-import {RiotContext} from './SearchMain';
-import {ChamSumContext} from '../../page/Search_result'
+import {RiotContext} from '../../SearchMain';
+import {ChamSumContext} from '../../../../page/Search_result'
 import styled from 'styled-components';
 import ItemImg from './ItemImg';
+import SpellImg from '../SpellImg';
+import Runes from '../Runes';
 
 const Row = styled.div`
     display: flex;
@@ -36,12 +38,10 @@ const ChampSpace = styled(Row)`
 
 function DetailedGame({user, myTeamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}) {
 
-    const {spellSummury,runsSummury} = useContext(RiotContext);
     const {champSummury} = useContext(ChamSumContext);
 
     const teamInfo = myTeamInfos.find( team =>team.participantId === user.participantId);
     
-
     const items1 = {
         item0 : user.stats.item0,
         item1 : user.stats.item1,
@@ -52,39 +52,6 @@ function DetailedGame({user, myTeamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}
         item1 : user.stats.item4,
         item2 : user.stats.item5,
     }
-  
-  // 스펠json에서 내가 사용했던 스펠의 키랑 같은 것을 찾아 
-    // 객체가 들어있는 배열로 만든 후 null아닌 것만 필터 
-    const mySpell = spellSummury.map( spells  => {
-        
-        if(spells[1].key === (user.spell1Id).toString() ){
-            return { spell1 :spells[1].image.full }
-        }
-        if(spells[1].key === (user.spell2Id).toString() ){
-            return { spell2 :spells[1].image.full }
-        }
-        return null;
-    }).filter(value => value !== null)
-   
-      // 배열인 것을 객체로 변환 
-    const mySpellObj =  Object.assign({}, mySpell[0],mySpell[1]);
-    //속성명 spell1 , spell2    
-
-
-    //룬 깨너자 
-    const myRouns = runsSummury.find( run =>( user.stats.perkPrimaryStyle === run.id));
-     
-    // perk0속성은 첫번쨰 룬
-    let perk;
-    myRouns.slots.map( slots =>{
-        return slots.runes})
-        .forEach(slot =>{
-          slot.forEach( rune => {
-              if(rune.id === user.stats.perk0 ){
-                perk = rune;
-              }
-          })
-        })
 
     const average = ((user.stats.kills + user.stats.assists) /user.stats.deaths).toFixed(2);
 
@@ -96,12 +63,10 @@ function DetailedGame({user, myTeamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}
             </ChampSpace>
             <Row>
                 <Col>
-                    <img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${mySpellObj.spell1}`} style={{width:'22px'}} alt='스펠1'/>        
-                    <img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${mySpellObj.spell2}`} style={{width:'22px'}} alt='스펠2'/>
+                    <SpellImg user={user} width='22px'/>
                 </Col>
                 <Col>
-                    <img src={`https://ddragon.leagueoflegends.com/cdn/img/${perk.icon}`} style={{width:'22px'}} alt='메인2'/>
-                    <img src={`https://ddragon.leagueoflegends.com/cdn/img/${myRouns.icon}`} style={{width:'22px'}} alt='메인1'/>
+                    <Runes user={user} width='22px'/>
                 </Col>
             </Row>
             <Row>   

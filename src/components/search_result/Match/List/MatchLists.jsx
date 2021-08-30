@@ -1,9 +1,9 @@
-import React,{useEffect,useState,useCallBack, createContext} from 'react';
+import React,{useEffect,useState, createContext} from 'react';
 import styled from 'styled-components';
 import axios from 'axios'
-import {MATCHS_URL} from '../../config';
+import {MATCHS_URL} from '../../../../config';
 import MatchInfo from './MatchInfo';
-import SubContents from './SubContents';
+import SubContents from '../subcontents/SubContents';
 
 const apiKEY = process.env.REACT_APP_API_KEY; 
 
@@ -38,17 +38,18 @@ const MatchLists = (props) => {
 
     useEffect(() => {
         if(newMatchLists){
-            getMatchInfo(newMatchLists).then(res => setMatchInfo(matchInfo.concat(res)));
+            getMatchInfo(newMatchLists).then(res => {
+                setMatchInfo(matchInfo.concat(res));
+                setRun(true);
+            });
         }else{
             getMatchInfo(matchLists).then(res => setMatchInfo(res));
         }
     }, [newMatchLists])
 
-    const onClickNewMatchLists = (e) =>{
-
+    const onClickNewMatchLists = async (e) =>{
         setRun(false)
-        onClickHandler(e);
-        setRun(true)
+        await onClickHandler(e);
 
     }
 
@@ -56,18 +57,19 @@ const MatchLists = (props) => {
  
         return (
             <MainContents>
+
                 <Main>
                     { matchInfo && matchInfo.map( matchInfo => (
                         <MatchInfo key={matchInfo.gameId} matchInfo={matchInfo} searchInfo={searchInfo} />))
                     }
                     { run ?  <Button onClick = {onClickNewMatchLists}>더 보기</Button> : <Button > 로딩,,,</Button> }
                 </Main>
-                { matchInfo &&
+
+                
                 <MatchInfoContext.Provider value ={{matchInfo}}>
                      <SubContents /> 
                 </MatchInfoContext.Provider>
-                }
-       
+                
             </MainContents>
         );
     
@@ -88,11 +90,11 @@ export default MatchLists;
   const getMatchInfo =  matchLists => {
     const res = Promise.all( 
         matchLists.map( (matchList) => { 
-            return axios.get(`${MATCHS_URL}/${matchList.gameId}?api_key=${apiKEY}`) 
+            return axios.get(`${MATCHS_URL}${matchList.gameId}?api_key=${apiKEY}`) 
             .then(res => {
-                    return  res.data;
+                return  res.data;
             })
         })
     );
     return res; 
-    }
+}

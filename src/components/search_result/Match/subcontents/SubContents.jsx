@@ -1,13 +1,11 @@
 import React, { useEffect, useState ,useContext} from 'react'
 import axios from 'axios';
 import styled from 'styled-components';
-import {CHAMPION_MASTERIES ,MATCHLISTS_URL} from '../../config'
+import {CHAMPION_MASTERIES } from '../../../../config'
 import Masteries from './Masteries';
-import {ChamSumContext} from '../../page/Search_result';
-import {RiotContext} from './SearchMain';
-import MatchLists from './MatchLists';
+import {ChamSumContext} from '../../../../page/Search_result';
 import RecentLists from './RecentLists';
-
+import{MatchInfoContext} from '../List/MatchLists';
 
 const SubContent = styled.div`
     margin-left: 1rem;
@@ -18,11 +16,7 @@ const SubContent = styled.div`
 const ChampionMasteries = styled.div`
     display: flex;
 ` 
-const RecentMatchInfo = styled.div`
-    display: flex;
-    border: 1px solid #dddddd;
-    border-radius: 10px;
-`
+
 
 
 
@@ -33,7 +27,9 @@ function SubContents() {
     const [masteries,setMasteries] = useState();
 
     const {searchInfo,champSummury } = useContext(ChamSumContext)
-    
+    const {matchInfo} = useContext(MatchInfoContext);
+   
+
     useEffect(()=>{
         axios.get(`${CHAMPION_MASTERIES}${searchInfo.id}?api_key=${apiKEY}`)
         .then(res => {
@@ -51,14 +47,15 @@ function SubContents() {
     return (
         <SubContent>
                 <ChampionMasteries>
-                        {masteries && masteries.length >= 3 && masteries.map(mastery => 
-                            <Masteries key={mastery.championId} mastery={mastery} champSummury={champSummury}/> )
-                        }    
+                    {matchInfo && masteries.length >= 3 && masteries.map(mastery => 
+                        <Masteries key={mastery.championId} mastery={mastery} champSummury={champSummury}/> )
+                    }    
                 </ChampionMasteries>
-                
-                <RecentMatchInfo>
-                    <RecentLists />
-                </RecentMatchInfo>
+           
+                {
+                matchInfo && <RecentLists />
+                }            
+           
         </SubContent>
     )
 }

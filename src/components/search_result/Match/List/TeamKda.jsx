@@ -53,9 +53,11 @@ function TeamKda(props) {
     const match = teamOj.win === "Win" ? '승리' : '패배'; 
     return (
         <Row className = {`${teamOj.win === 'Win' ? 'win': 'lose'}`}>
-            <span style={{color:'white'}}>{match}({teamOj.teamId === 200 ? '레드팀' : '블루팀'})</span> <span>{kda.hap} / {kda.death} / {kda.assist}</span>
+            <span style={{color:'white'}}>{match}({teamOj.teamId === 200 ? '레드팀' : '블루팀'})</span> 
+            <span>{kda.hap} / {kda.death} / {kda.assist}</span>
             <ObjScore>
-                <span><img style={{width:'20px'}} src='/img/object/icon-baron-r.png' alt='바론'/>{teamOj.baronKills}</span><span><img style={{width:'20px'}} src='/img/object/icon-dragon-r.png' alt='드래곤'/>{teamOj.dragonKills}</span>
+                <span><img style={{width:'20px'}} src='/img/object/icon-baron-r.png' alt='바론'/>{teamOj.baronKills}</span>
+                <span><img style={{width:'20px'}} src='/img/object/icon-dragon-r.png' alt='드래곤'/>{teamOj.dragonKills}</span>
                 <span><img style={{width:'20px',height:'20px'}} src='/img/object/icon-tower-r.png' alt='타워'/>{teamOj.towerKills}</span> 
             </ObjScore>
             <span>{kda.totalGold}</span>    

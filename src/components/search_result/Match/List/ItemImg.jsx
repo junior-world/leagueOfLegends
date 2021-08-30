@@ -14,8 +14,9 @@ const ImgDiv = styled.div`
     background-repeat: no-repeat;
     margin: 1px;
     border-radius: 10px;
-
 `
+
+
 function ItemImg(props) {
     
     return (

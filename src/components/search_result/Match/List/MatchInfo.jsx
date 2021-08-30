@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import ItemImg from './ItemImg';
 import GameTeam from './GameTeam';
 import DetailedGame from './DetailedGame';
-import {RiotContext} from './SearchMain'
-import {ChamSumContext} from '../../page/Search_result';
+import {ChamSumContext} from '../../../../page/Search_result';
 import TeamKda from './TeamKda';
+import SpellImg from '../SpellImg';
+import Runes from '../Runes';
+import ChampionImg from '../ChampionImg';
 
 const P = styled.p`
     margin:3px;
@@ -94,11 +96,21 @@ const DetailedHeader = styled.div`
 // 컴포넌트
 const MatchInfo = (props) => {
 
-    const {spellSummury,runsSummury} = useContext(RiotContext);
     const {champSummury} = useContext(ChamSumContext);
     const {matchInfo ,searchInfo} = props;
+
     const [detail, setDetail] = useState(false);
 
+    const gameTime = matchInfo.gameCreation
+    const currentTime = Date.now() ;
+    const diff = currentTime- gameTime
+    let time = Math.floor(((diff/1000)/60)/60)
+    let timeConvert = `${time}시간 전`;
+    
+    if(time > 23){
+        time = Math.floor(time/24)
+        timeConvert = `${time}일 전 `
+    }
 
     const queueId = matchInfo.queueId;
     let queueMode;
@@ -133,19 +145,17 @@ const MatchInfo = (props) => {
     const myTeam = totalParticipants.filter( participant => participant.teamId === myPlayInfo.teamId);
 
     
-      // 적팀만 뽑아옴
+    // 적팀만 뽑아옴
     const enermyTeam =  totalParticipants.filter( participant => participant.teamId !== myPlayInfo.teamId);
     
     
-// 2개의 팀의 데미지의 최대를 뽑기 위해
-   let maxDamage=0;
-   maxDamage = setMaxdamage(myTeam,enermyTeam);
+    // 2개의 팀의 데미지의 최대를 뽑기 위해
+    const  maxDamage = setMaxdamage(myTeam,enermyTeam);
 
     // team별 총 kda
     const myTeamKda = setScore(myTeam)
     const enermyTeamKda = setScore(enermyTeam)
     
-   
     
     //적팀들의 닉네임과 아이디정보들
     const enermyInfos = getTeamMember(enermyTeam , participantIdentities)
@@ -163,55 +173,6 @@ const MatchInfo = (props) => {
         item1 : myPlayInfo.stats.item4,
         item2 : myPlayInfo.stats.item5,
     }
-  
-    
-    const getChampionImage = (playInfo) =>{
-        let  chmapionImage ;
-        champSummury.forEach( champ => {
-            if(champ[1].key === (playInfo.championId).toString()){
-                chmapionImage = champ[1].image.full;
-            }
-        })
-        return chmapionImage;
-    }
-    
-    // 내 챔피언 이미지 가져오기
-    const chmapionImage = getChampionImage(myPlayInfo);
-
-
-    // 스펠json에서 내가 사용했던 스펠의 키랑 같은 것을 찾아 
-    // 객체가 들어있는 배열로 만든 후 null인 것은 필터 
-    const mySpell = spellSummury.map( spells  => {
-        
-        if(spells[1].key === (myPlayInfo.spell1Id).toString() ){
-            return { spell1 :spells[1].image.full }
-        }
-        if(spells[1].key === (myPlayInfo.spell2Id).toString() ){
-            return { spell2 :spells[1].image.full }
-        }
-        return null;
-    }).filter(value => value !== null)
-   
-
-    // 배열인 것을 객체로 변환 
-   const mySpellObj =  Object.assign({}, mySpell[0],mySpell[1]);
-    //속성명 spell1 , spell2    
-
-    //룬 깨너자 
-    const myRouns = runsSummury.find( run =>( myPlayInfo.stats.perkPrimaryStyle === run.id));
-     
-    // perk0속성은 첫번쨰 룬
-    let perk;
-    myRouns.slots.map( slots =>{
-        return slots.runes})
-        .forEach(slot =>{
-          slot.forEach( rune => {
-              if(rune.id === myPlayInfo.stats.perk0 ){
-                perk = rune;
-              }
-          })
-        })
-
 
     const clickDetailed = (event) =>{
         event.preventDefault();
@@ -227,33 +188,30 @@ const MatchInfo = (props) => {
                 <GameInfo>
                     <P>{queueMode}</P>
                     <P className={`${myPlayInfo.stats.win ? 'blue':'red'} `}>{myPlayInfo.stats.win ? '승리':'패배'}</P>
-                    <P>08/11</P>
+                    <P>{timeConvert}</P>
                     <P>{(matchInfo.gameDuration/60).toFixed()}분</P>
                 </GameInfo>
                 
                 <Stats>
-                    {/* 세로 */}
-                    <img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/${chmapionImage}`} style={{width:'48px'}} alt='챔피언 사진'/>
+                    <ChampionImg championId={myPlayInfo.championId} width='48px'/>
                     <P>LV.{myPlayInfo.stats.champLevel}</P>
                 </Stats>
+
                 <Row>
                     <Stats className='skill'>
-                        {/* 세로 */}
-                        <img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${mySpellObj.spell1}`} style={{width:'40px'}} alt='스펠1'/>
-                        <img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${mySpellObj.spell2}`} style={{width:'40px'}} alt='스펠2'/>
+                       <SpellImg user ={myPlayInfo} width='40px'/>
                     </Stats>
                     <Stats className='skill'>
-                        <img src={`https://ddragon.leagueoflegends.com/cdn/img/${perk.icon}`} style={{width:'40px'}} alt='메인2'/>
-                        <img src={`https://ddragon.leagueoflegends.com/cdn/img/${myRouns.icon}`} style={{width:'40px'}} alt='메인1'/>
+                        <Runes user={myPlayInfo} width='40px'/>
                     </Stats>
                 </Row>
             
                 <Stats className='figure'>
-                        {/* 세로 */}
                     <P><span>{myPlayInfo.stats.kills}/{myPlayInfo.stats.deaths}/{myPlayInfo.stats.assists}</span> KDA</P>
-                    <P><span>{myPlayInfo.stats.totalMinionsKilled}({(myPlayInfo.stats.totalMinionsKilled/(matchInfo.gameDuration/60).toFixed()).toFixed(1)})</span> CS</P>
+                    <P><span>{myPlayInfo.stats.totalMinionsKilled + myPlayInfo.stats.neutralMinionsKilled}({( (myPlayInfo.stats.totalMinionsKilled+myPlayInfo.stats.neutralMinionsKilled) /(matchInfo.gameDuration/60).toFixed()).toFixed(1)})</span> CS</P>
                     <P>킬 관여<span>{( ( (myPlayInfo.stats.kills+myPlayInfo.stats.assists) / myTeamKda.hap )*100).toFixed()}%</span></P>
                 </Stats>
+
                 <Stats>
                         <ItemImg items={items1}/>
                         <ItemImg items={items2}/>
@@ -261,14 +219,20 @@ const MatchInfo = (props) => {
                 
                 <Row>   
                     <Each >
-                        { myTeamInfos.map( (team) =>(
-                            <GameTeam key={team.participantId} team={team} myPlayInfo={myPlayInfo} totalParticipants={totalParticipants} champSummury={champSummury}/>
-                        ))}
+                        {
+                         myTeamInfos.map( (myTeam) =>(
+                            <GameTeam key={myTeam.participantId} team={myTeam} myPlayInfo={myPlayInfo} 
+                            totalParticipants={totalParticipants} champSummury={champSummury}/>
+                        ))
+                        }
                     </Each>
                     <Each >
-                        { enermyInfos.map( (team) =>(
-                                <GameTeam key={team.participantId} team={team}  myPlayInfo={myPlayInfo} totalParticipants={totalParticipants} champSummury={champSummury} />
-                            ))}
+                        { 
+                        enermyInfos.map( (enermy) =>(
+                            <GameTeam key={enermy.participantId} team={enermy}  myPlayInfo={myPlayInfo} 
+                            totalParticipants={totalParticipants} champSummury={champSummury} />
+                            ))
+                        }
                     </Each>
                 </Row>
 
@@ -276,24 +240,29 @@ const MatchInfo = (props) => {
                 <Detailed win={myPlayInfo.stats.win} >
                     {detail ? <Button onClick={clickDetailed}>▲</Button> : <Button onClick={clickDetailed}>▼</Button>}
                 </Detailed>
+
             </List>
 
-            {detail && 
+            {
+            detail && 
             <div>
                 <DetailedHeader>
                     <TeamKda kda={myTeamKda} matchInfo={matchInfo} myPlayInfo={myPlayInfo}/>
-                    {myTeam.map( user => 
-                    <DetailedGame user={user} key={user.participantId} myTeamInfos={myTeamInfos} myPlayInfo={myPlayInfo} 
-                    kda={myTeamKda} maxDamage={maxDamage}  matchInfo={matchInfo}
-                    />
-                    )}
+                    {
+                    myTeam.map( user => 
+                        <DetailedGame user={user} key={user.participantId} myTeamInfos={myTeamInfos} myPlayInfo={myPlayInfo} 
+                        kda={myTeamKda} maxDamage={maxDamage}  matchInfo={matchInfo}/>
+                    )
+                    }
                 </DetailedHeader>
 
                 <DetailedHeader>  
                     <TeamKda kda={enermyTeamKda} matchInfo={matchInfo} myPlayInfo={enermyTeam[0]}/>    
-                    {enermyTeam.map( user => 
-                    <DetailedGame user={user} key={user.participantId}  matchInfo={matchInfo}
-                    myTeamInfos={enermyInfos}  kda={enermyTeamKda} maxDamage={maxDamage}/>)}
+                    {
+                    enermyTeam.map( user => 
+                        <DetailedGame user={user} key={user.participantId}  matchInfo={matchInfo}
+                        myTeamInfos={enermyInfos}  kda={enermyTeamKda} maxDamage={maxDamage}/>)
+                    }
                 </DetailedHeader>
 
             </div>
@@ -352,6 +321,12 @@ const getTeamMember = (teams, participantIdentities) =>{
         return kda;
     }
 
+    /**
+     * 
+     * @param {* 검색한 플레이어의 팀}} myTeams 
+     * @param {* 반대편 팀} enermyTeams 
+     * @returns 해당 게임의 가장 큰 데미지
+     */
     const setMaxdamage = (myTeams, enermyTeams) =>{
         let maxDamage = 0 ;
 

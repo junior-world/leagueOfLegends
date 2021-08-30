@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react'
 import styled from 'styled-components'
 import SummonersTier from './SummonersTier';
 import axios from 'axios';
-import {ENTRIES_URL} from '../../config';
+import {ENTRIES_URL} from '../../../config';
 
 
 const Header = styled.header`
@@ -77,13 +77,13 @@ const SearchInfo = (props) => {
                 
                     <DivCol>
                          <img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/profileicon/${searchInfo.profileIconId}.png`} alt="프로필사진" style={{borderRadius:'10px',width:'100px'}}/>
-                    <AbDiv>
-                        <AbP>{searchInfo.summonerLevel}</AbP>
-                    </AbDiv>
+                        <AbDiv>
+                            <AbP>{searchInfo.summonerLevel}</AbP>
+                        </AbDiv>
                     </DivCol>
                     <UpDiv>
-                    <H3>{searchInfo.name}</H3>
-                    <Button>업데이트</Button>
+                        <H3>{searchInfo.name}</H3>
+                        <Button>업데이트</Button>
                     </UpDiv>
                      <SummonersTier summonnerTier={summonnerTier}/>  
                 </>}

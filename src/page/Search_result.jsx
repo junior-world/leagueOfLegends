@@ -1,13 +1,12 @@
 import React,{useEffect,useState} from 'react'
-import {useHistory, useParams
+import { useParams
 } from "react-router-dom";
 import axios from 'axios';
 import styled from 'styled-components';
-import SearchInfo from '../components/search_result/SearchInfo';
+import SearchInfo from '../components/search_result/SearchInfo/SearchInfo';
 import SearchNav from '../components/search_result/SearchNav';
 import SearchMain from '../components/search_result/SearchMain';
-import {SUMMONER_URL , MATCHLISTS_URL ,ALL_CHAMPION_DATA} from '../config.js';
-import SubContents from '../components/search_result/SubContents';
+import {SUMMONER_URL ,ALL_CHAMPION_DATA} from '../config.js';
 
 const Row = styled.div`
     display: flex;
@@ -52,7 +51,6 @@ function SearchResult() {
           
     }, [summonerName.summonersName])
 
-
     useEffect(()=>{
 
         const chmap = async ()=>{
@@ -62,20 +60,34 @@ function SearchResult() {
         chmap();
     },[])       
 
+    if(searchInfo){
+        const item = {
+           name : searchInfo.name,
+           profileIconId : searchInfo.profileIconId,
+           time : Date.now(),
+        }
+        const getItem = JSON.parse(localStorage.getItem(searchInfo.name));
 
+        if(getItem){
+            localStorage.removeItem(summonerName.summonersName)
+        }
+        localStorage.setItem(searchInfo.name, JSON.stringify(item));
+     
+
+    }
     
     return (
         <div>
             { searchInfo && 
                 <>
-                        <SearchInfo searchInfo={searchInfo} /> 
-                        <hr/>
-                        <SearchNav/>
-                        <Row>  
-                            <ChamSumContext.Provider value ={{champSummury, searchInfo} }>
-                                <SearchMain  />
-                            </ChamSumContext.Provider>
-                        </Row>
+                    <SearchInfo searchInfo={searchInfo} /> 
+                    <hr/>
+                    <SearchNav/>
+                    <Row>  
+                        <ChamSumContext.Provider value ={{champSummury, searchInfo} }>
+                            <SearchMain  />
+                        </ChamSumContext.Provider>
+                    </Row>
                     
                 </>
             }
