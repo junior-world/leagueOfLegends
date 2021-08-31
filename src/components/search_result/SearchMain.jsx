@@ -1,11 +1,9 @@
 import React,{useState, useEffect,useContext} from 'react';
 import styled from 'styled-components';
-import axios from 'axios'
-import {MATCHLISTS_URL,SPELL_DATA, RUNS_DATA} from '../../config.js';
-import MatchLists from './Match/List/MatchLists';
+import MatchLists from './Match/MatchLists';
 import {ChamSumContext} from '../../page/Search_result';
-import SubContents from './Match/subcontents/SubContents';
-
+import {getRunesAPI, getSpellAPI} from '../../controller/search_result/riotJsonAPI';
+import {getMatchListsAPI} from '../../controller/search_result/riotAPI';
 const Main = styled.main`
     display: flex;
     
@@ -18,12 +16,6 @@ const Col = styled.div`
     
 `
 
-
-
-const apiKEY = process.env.REACT_APP_API_KEY; 
-
-
-
 export const RiotContext = React.createContext({
     spellSummury: [],
     runsSummury: [],
@@ -33,6 +25,7 @@ export const RiotContext = React.createContext({
   
 
 const SearchMain = (props) => {
+    
     const {searchInfo} = useContext(ChamSumContext)
 
     const [matchLists, setMatchLists] = useState();
@@ -44,42 +37,20 @@ const SearchMain = (props) => {
  
     // 스펠,챔피언,룬
     useEffect(() => {
-        
-        async function dddd() {
-
-            const res =await axios({url: `${SPELL_DATA}`,
-                method: 'GET',
-                contentType: "application/json"})
-
-            setSpellSummury(Object.entries(res.data.data));
-             
-
-            const rune =await axios({url: `${RUNS_DATA}`,
-            method: 'GET',
-            contentType: "application/json"})
-
-            setRunsSummury(rune.data)
-
-        }
-      
-        dddd()
-        
-
+            
+        getSpellAPI().then(res => setSpellSummury(Object.entries(res.data.data)) );
+        getRunesAPI().then(res => setRunsSummury(res.data));
+            
     }, [])
 
 
     // 게임 리스트
     useEffect(() => {
-        
-        async  function matchLists (){ 
 
-            const res = await axios.get(`${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${count+10}&beginIndex=${count}&api_key=${apiKEY}`)    
-            setCount(count+10)
+        getMatchListsAPI(searchInfo.accountId,count).then(res =>{
+            setCount(count+5)
             setMatchLists(res.data.matches)
-            
-        }
-
-        matchLists();
+        })
         
     }, [searchInfo.accountId])
   
@@ -90,8 +61,9 @@ const SearchMain = (props) => {
         if(count > 15){
             return ;
         }else{
-            const res =await axios.get(`${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${count+5}&beginIndex=${count}&api_key=${apiKEY}`)
-            setNewMatchLists(res.data.matches);
+            getMatchListsAPI(searchInfo.accountId,count).then(res =>{
+                setNewMatchLists(res.data.matches);
+            })
             
         }
         setCount(count+5);
@@ -102,7 +74,11 @@ const SearchMain = (props) => {
             <Col>
                 {matchLists && 
                     <RiotContext.Provider  value ={{spellSummury,runsSummury}}>
-                        <MatchLists  matchLists ={matchLists} searchInfo={searchInfo} onClickHandler={onClickHandler} newMatchLists={newMatchLists}/>
+                        <MatchLists  
+                            matchLists ={matchLists} 
+                            searchInfo={searchInfo} 
+                            onClickHandler={onClickHandler} 
+                            newMatchLists={newMatchLists}/>
                     </RiotContext.Provider>
                 }   
             </Col>

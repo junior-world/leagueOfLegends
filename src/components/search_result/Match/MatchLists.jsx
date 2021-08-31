@@ -1,11 +1,9 @@
 import React,{useEffect,useState, createContext} from 'react';
 import styled from 'styled-components';
-import axios from 'axios'
-import {MATCHS_URL} from '../../../../config';
-import MatchInfo from './MatchInfo';
-import SubContents from '../subcontents/SubContents';
+import MatchInfo from './list/MatchInfo';
+import SubContents from './subcontents/SubContents';
+import {getMatchInfoAPI} from '../../../controller/search_result/riotAPI';
 
-const apiKEY = process.env.REACT_APP_API_KEY; 
 
 const Main = styled.div`
     display: flex;
@@ -53,16 +51,20 @@ const MatchLists = (props) => {
 
     }
 
-
  
         return (
             <MainContents>
 
                 <Main>
                     { matchInfo && matchInfo.map( matchInfo => (
-                        <MatchInfo key={matchInfo.gameId} matchInfo={matchInfo} searchInfo={searchInfo} />))
+                        <MatchInfo key={matchInfo.gameId} 
+                            matchInfo={matchInfo} 
+                            searchInfo={searchInfo} />))    
                     }
-                    { run ?  <Button onClick = {onClickNewMatchLists}>더 보기</Button> : <Button > 로딩,,,</Button> }
+
+                    { 
+                    run ?  <Button onClick = {onClickNewMatchLists}>더 보기</Button> : <Button > 로딩,,,</Button>
+                    }
                 </Main>
 
                 
@@ -77,10 +79,7 @@ const MatchLists = (props) => {
 };
 
 
-
-
 export default MatchLists;
-
 
  /**
      * 
@@ -90,7 +89,7 @@ export default MatchLists;
   const getMatchInfo =  matchLists => {
     const res = Promise.all( 
         matchLists.map( (matchList) => { 
-            return axios.get(`${MATCHS_URL}${matchList.gameId}?api_key=${apiKEY}`) 
+            return getMatchInfoAPI(matchList.gameId)
             .then(res => {
                 return  res.data;
             })

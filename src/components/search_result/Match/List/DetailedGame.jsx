@@ -1,11 +1,10 @@
 import React,{useContext} from 'react'
 import GameTeam from './GameTeam';
-import {RiotContext} from '../../SearchMain';
 import {ChamSumContext} from '../../../../page/Search_result'
 import styled from 'styled-components';
 import ItemImg from './ItemImg';
-import SpellImg from '../SpellImg';
-import Runes from '../Runes';
+import SpellImg from '../common/SpellImg';
+import Runes from '../common/Runes';
 
 const Row = styled.div`
     display: flex;
@@ -33,14 +32,11 @@ const ChampSpace = styled(Row)`
 
 
 
-
-
-
-function DetailedGame({user, myTeamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}) {
+function DetailedGame({user, teamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}) {
 
     const {champSummury} = useContext(ChamSumContext);
 
-    const teamInfo = myTeamInfos.find( team =>team.participantId === user.participantId);
+    const teamInfo = teamInfos.find( team =>team.participantId === user.participantId);
     
     const items1 = {
         item0 : user.stats.item0,

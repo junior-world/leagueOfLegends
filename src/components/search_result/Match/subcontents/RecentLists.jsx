@@ -1,5 +1,5 @@
 import React,{useContext} from 'react'
-import { MatchInfoContext } from '../List/MatchLists';
+import { MatchInfoContext } from '../MatchLists';
 import {ChamSumContext} from '../../../../page/Search_result';
 import RecentMatch from './RecentMatch';
 import styled from 'styled-components';
@@ -39,7 +39,6 @@ function RecentLists() {
     matchInfo.forEach( info => {
         let newObj= {}
         
-
         for(const identity of info.participantIdentities){
             if(searchInfo.accountId === identity.player.accountId ){
                 participantId = identity.participantId;
@@ -83,32 +82,9 @@ function RecentLists() {
     })
 
     // 최근 전적 중 중첩된 것 제거
-    const result = recentArray.reduce( (acc , cur)=>{
-            const len = acc.length;
-            let count = 0;
-            let check ='';
-         
-            if(len === 0){
-                acc.push(cur)
-            }else{
-                for(const i of acc){
-                    count++
-
-                    if( i.championId === cur.championId){
-                        check+='1'
-                    }else{
-                        check+='0'
-                    }
-
-                    if((count === len) && check.indexOf('1')===-1){
-                       acc.push(cur)
-                    }
-                }
-            }
-            
-            return acc;
-        },[])
-          
+    const result = deDuplication(recentArray)
+    
+    //championId의 이름으로 championId 맞는 배열을 생성
     let grouped = groupBy(recentArray, 'championId');
 
     let arrList = [];
@@ -186,3 +162,39 @@ function groupBy(objectArray, property) {
     }, {});
 }
 
+
+/**
+ * 
+ * @param {*중복 제거가 필요한 배열} arr 
+ * @returns 중복 제거된 배열
+ */
+const deDuplication = (arr) =>(
+
+    arr.reduce( (acc , cur)=>{
+
+        const len = acc.length;
+        let count = 0;
+        let check ='';
+     
+        if(len === 0){
+            acc.push(cur)
+        }
+
+        for(const i of acc){
+            count++
+
+            if( i.championId === cur.championId){
+                check+='1'
+            }else{
+                check+='0'
+            }
+
+            if((count === len) && check.indexOf('1')===-1){
+                acc.push(cur)
+            }
+        }
+        
+        
+        return acc;
+    },[])
+)

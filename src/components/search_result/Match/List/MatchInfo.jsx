@@ -1,13 +1,11 @@
-import React,{useState,useContext} from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
 import ItemImg from './ItemImg';
-import GameTeam from './GameTeam';
-import DetailedGame from './DetailedGame';
-import {ChamSumContext} from '../../../../page/Search_result';
-import TeamKda from './TeamKda';
-import SpellImg from '../SpellImg';
-import Runes from '../Runes';
-import ChampionImg from '../ChampionImg';
+import SpellImg from '../common/SpellImg';
+import Runes from '../common/Runes';
+import ChampionImg from '../common/ChampionImg';
+import DetailedContents from './DetailedContents';
+import GameTeamContents from './GameTeamContents';
 
 const P = styled.p`
     margin:3px;
@@ -57,14 +55,7 @@ const Row = styled.div`
     height: 132px;
     margin-left: 8px;
 `
-const Each = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    justify-content: center;
-    width: 165px;
 
-`
 const Detailed = styled.div`
         background-color: ${p => p.win ? '#0066FF':'#FF3333'};
         border-radius: 0 10px 10px 0;
@@ -88,29 +79,19 @@ const List = styled(Main)`
     margin-bottom: 0.5rem;
     border-radius: 10px;
 `
-const DetailedHeader = styled.div`
-    margin-bottom : 1rem;
-`
 
 
 // 컴포넌트
 const MatchInfo = (props) => {
 
-    const {champSummury} = useContext(ChamSumContext);
     const {matchInfo ,searchInfo} = props;
 
     const [detail, setDetail] = useState(false);
 
     const gameTime = matchInfo.gameCreation
-    const currentTime = Date.now() ;
-    const diff = currentTime- gameTime
-    let time = Math.floor(((diff/1000)/60)/60)
-    let timeConvert = `${time}시간 전`;
     
-    if(time > 23){
-        time = Math.floor(time/24)
-        timeConvert = `${time}일 전 `
-    }
+    // 시간 측정 현재부터 지난 게임에 대한 시간의 흐름 ? ex)몇 일전
+    const convertTime = getTime(gameTime); 
 
     const queueId = matchInfo.queueId;
     let queueMode;
@@ -148,14 +129,13 @@ const MatchInfo = (props) => {
     // 적팀만 뽑아옴
     const enermyTeam =  totalParticipants.filter( participant => participant.teamId !== myPlayInfo.teamId);
     
-    
+
     // 2개의 팀의 데미지의 최대를 뽑기 위해
     const  maxDamage = setMaxdamage(myTeam,enermyTeam);
 
     // team별 총 kda
     const myTeamKda = setScore(myTeam)
     const enermyTeamKda = setScore(enermyTeam)
-    
     
     //적팀들의 닉네임과 아이디정보들
     const enermyInfos = getTeamMember(enermyTeam , participantIdentities)
@@ -188,7 +168,7 @@ const MatchInfo = (props) => {
                 <GameInfo>
                     <P>{queueMode}</P>
                     <P className={`${myPlayInfo.stats.win ? 'blue':'red'} `}>{myPlayInfo.stats.win ? '승리':'패배'}</P>
-                    <P>{timeConvert}</P>
+                    <P>{convertTime}</P>
                     <P>{(matchInfo.gameDuration/60).toFixed()}분</P>
                 </GameInfo>
                 
@@ -218,22 +198,10 @@ const MatchInfo = (props) => {
                 </Stats>
                 
                 <Row>   
-                    <Each >
-                        {
-                         myTeamInfos.map( (myTeam) =>(
-                            <GameTeam key={myTeam.participantId} team={myTeam} myPlayInfo={myPlayInfo} 
-                            totalParticipants={totalParticipants} champSummury={champSummury}/>
-                        ))
-                        }
-                    </Each>
-                    <Each >
-                        { 
-                        enermyInfos.map( (enermy) =>(
-                            <GameTeam key={enermy.participantId} team={enermy}  myPlayInfo={myPlayInfo} 
-                            totalParticipants={totalParticipants} champSummury={champSummury} />
-                            ))
-                        }
-                    </Each>
+                    {/* 아군팀 */}
+                   <GameTeamContents teamInfos={myTeamInfos} totalParticipants={totalParticipants} myPlayInfo={myPlayInfo}/>
+                   {/* 적군팀 */}
+                   <GameTeamContents teamInfos={enermyInfos} totalParticipants={totalParticipants} myPlayInfo={myPlayInfo}/>
                 </Row>
 
 
@@ -246,25 +214,18 @@ const MatchInfo = (props) => {
             {
             detail && 
             <div>
-                <DetailedHeader>
-                    <TeamKda kda={myTeamKda} matchInfo={matchInfo} myPlayInfo={myPlayInfo}/>
-                    {
-                    myTeam.map( user => 
-                        <DetailedGame user={user} key={user.participantId} myTeamInfos={myTeamInfos} myPlayInfo={myPlayInfo} 
-                        kda={myTeamKda} maxDamage={maxDamage}  matchInfo={matchInfo}/>
-                    )
-                    }
-                </DetailedHeader>
-
-                <DetailedHeader>  
-                    <TeamKda kda={enermyTeamKda} matchInfo={matchInfo} myPlayInfo={enermyTeam[0]}/>    
-                    {
-                    enermyTeam.map( user => 
-                        <DetailedGame user={user} key={user.participantId}  matchInfo={matchInfo}
-                        myTeamInfos={enermyInfos}  kda={enermyTeamKda} maxDamage={maxDamage}/>)
-                    }
-                </DetailedHeader>
-
+                {/* 아군팀 */}
+                <DetailedContents teams={myTeam} matchInfo={matchInfo} myPlayInfo={myPlayInfo} maxDamage={maxDamage} teamKda={myTeamKda} teamInfos={myTeamInfos}/>
+                {/* 적군팀 */}
+                <DetailedContents 
+                    teams={enermyTeam} 
+                    matchInfo={matchInfo} 
+                    myPlayInfo={myPlayInfo} 
+                    maxDamage={maxDamage} 
+                    teamKda ={enermyTeamKda} 
+                    teamInfos={enermyInfos} 
+                    enermy = 'true'
+                    />
             </div>
             }
         </InfoList>
@@ -294,33 +255,6 @@ const getTeamMember = (teams, participantIdentities) =>{
 }
 
 
-
-   /**
-    * 
-    * @param {*현재 팀의 정보 my , enermy} teams 
-    * @returns {팀별 전체 kda} kda
-    */
-    const setScore = (teams)=>{
-
-        const kda = { 
-            hap : 0,
-            death : 0,
-            assist : 0,
-            totalGold : 0,
-
-        }
-
-        teams.forEach( team => {
-            kda.hap +=  team.stats.kills;
-            kda.death += team.stats.deaths;
-            kda.assist += team.stats.assists;
-            kda.totalGold += team.stats.goldEarned;
-
-        
-        });
-        return kda;
-    }
-
     /**
      * 
      * @param {* 검색한 플레이어의 팀}} myTeams 
@@ -344,3 +278,53 @@ const getTeamMember = (teams, participantIdentities) =>{
         return maxDamage;
        
     }
+
+    
+/**
+    * 
+    * @param {*현재 팀의 정보 my , enermy} teams 
+    * @returns {팀별 전체 kda} kda
+    */
+ const setScore = (teams)=>{
+
+    const kda = { 
+        hap : 0,
+        death : 0,
+        assist : 0,
+        totalGold : 0,
+
+    }
+
+    teams.forEach( team => {
+        kda.hap +=  team.stats.kills;
+        kda.death += team.stats.deaths;
+        kda.assist += team.stats.assists;
+        kda.totalGold += team.stats.goldEarned;
+
+    
+    });
+    return kda;
+}
+
+
+/**
+ * 
+ * @param {*게임 시작 날짜}} gameTime 
+ * @returns (현재 날짜 - 지난 게임의 날짜) 시간의 흐름  //몇일전
+ */
+const getTime = (gameTime) =>{
+
+    const currentTime = Date.now();
+
+    const diff = currentTime- gameTime;
+
+    let time = Math.floor(((diff/1000)/60)/60);
+    let timeConvert = `${time}시간 전`;
+    
+    if(time > 23){
+        time = Math.floor(time/24)
+        timeConvert = `${time}일 전 `
+    }
+
+    return timeConvert;
+}

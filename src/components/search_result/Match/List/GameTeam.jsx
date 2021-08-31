@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import ChampionImg from '../ChampionImg';
+import ChampionImg from '../common/ChampionImg';
 
 const Teams = styled.div`
     display: flex;

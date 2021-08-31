@@ -1,7 +1,6 @@
 import React,{useContext} from 'react'
 import {ChamSumContext} from '../../../../page/Search_result';
 import styled from 'styled-components';
-import { matchPath } from 'react-router-dom';
 
 
 const ChampionAllInfo = styled.div`
@@ -25,9 +24,11 @@ const Img = styled.img`
     border-radius: 63px;
 
 `
-function RecentMatch({match}) {
+function RecentMatch(props) {
 
     const {champSummury} =  useContext(ChamSumContext)
+
+    const {match} = props;
     
     // 내 챔피언 이미지,이름 가져오기
     const chmapion = getChampionImage(match,champSummury);
@@ -44,18 +45,22 @@ function RecentMatch({match}) {
         <RecentsChampion>
         
             <Img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/${chmapion.image}`} alt='챔피언 사진'/>
+
             <ChampionAllInfo>
                 <span>{chmapion.name}</span>
                 <span>cs {cs}</span>
             </ChampionAllInfo>
+
             <ChampionAllInfo>
                 <span>{average} 평점</span>
                 <span>{kills}/{deaths}/{assists}</span>
             </ChampionAllInfo>
+
             <ChampionAllInfo>
                 <span>{winRate}%</span>
                 <span>{match.count}게임</span>
             </ChampionAllInfo>
+            
         </RecentsChampion>          
     )
 }

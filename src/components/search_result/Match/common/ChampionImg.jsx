@@ -1,5 +1,5 @@
 import React,{useContext} from 'react';
-import { ChamSumContext } from '../../../page/Search_result';
+import { ChamSumContext } from '../../../../page/Search_result';
 import styled from 'styled-components';
 
 const Img = styled.img`

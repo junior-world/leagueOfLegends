@@ -1,5 +1,5 @@
 import React,{useContext} from 'react';
-import { RiotContext } from '../SearchMain';
+import { RiotContext } from '../../SearchMain';
 
 function Runes(props) {
 

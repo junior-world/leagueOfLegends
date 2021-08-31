@@ -24,10 +24,15 @@ const ObjScore = styled(Row)`
 
 function TeamKda(props) {
     
-    const {kda , matchInfo,myPlayInfo} = props;
+    const {kda , matchInfo,myPlayInfo,enermy} = props;
+    let team;
 
-    let team = matchInfo.teams.filter( team => team.teamId === myPlayInfo.teamId)
-
+    if(enermy){
+        team  = matchInfo.teams.filter( team => team.teamId !== myPlayInfo.teamId)
+    }else{
+        team  = matchInfo.teams.filter( team => team.teamId === myPlayInfo.teamId)
+    }
+    console.log(team)
     const teamOj = Object.assign({}, team[0]);
 
             /** teamOj 속성들                                      kda 속성들
@@ -49,8 +54,8 @@ function TeamKda(props) {
                     win: "Win"
             **/
 
-
     const match = teamOj.win === "Win" ? '승리' : '패배'; 
+
     return (
         <Row className = {`${teamOj.win === 'Win' ? 'win': 'lose'}`}>
             <span style={{color:'white'}}>{match}({teamOj.teamId === 200 ? '레드팀' : '블루팀'})</span> 
