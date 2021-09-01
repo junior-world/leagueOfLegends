@@ -1,6 +1,5 @@
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
-
 import Main from './page/main';
 import ChampInfo from './page/champInfo';
 import Ranking from './page/Ranking';
