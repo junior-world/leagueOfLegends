@@ -1,28 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import RankIconSearch from '../../../controller/ranking/getIconSearch';
-import GetIcon from './GetIcon';
+import UserIcon from '../UserIcon';
+import UserName from '../UserName';
+import UserWinLose from '../UserWL';
+import UserTier from '../Tier';
 
-const RankUser = styled.div`
+const RankList = styled.div`
   margin: 0 auto;
   border-bottom: 1px solid #d7dada;
+  width: 100%;
 `;
 
 const UlStyle = styled.ul`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  width: 90%;
+  flex-wrap: wrap;
+  justify-content: space-around;
   list-style-type: None;
   margin-top: 1rem;
-  margin: 0 auto;
-  text-align: center;
 `;
 
 const LiStyle = styled.li`
   display: flex;
-
-  margin: 0 auto;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 500px;
+  box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 10%);
   padding: 35px 40px;
-  border-width: 5px;
+
+  border-bottom: 10px;
+`;
+
+const UserNameStyle = styled.div`
+  width: 200px;
+  margin-bottom: 1em;
 `;
 
 function LadderListItem(props) {
@@ -39,24 +52,26 @@ function LadderListItem(props) {
   });
 
   return (
-    <RankUser>
+    <RankList>
       <div>
         <UlStyle>
-          <LiStyle>
-            <div>
-              {icons &&
-                icons.map((icon, index) => (
-                  <GetIcon
-                    key={index}
-                    rankCU={rankCU[index]}
-                    icon={icon}></GetIcon>
-                ))}
-            </div>
-          </LiStyle>
+          {icons &&
+            icons.map((icon, index) => (
+              <LiStyle key={index}>
+                <UserIcon name={icon}></UserIcon>
+                <div>
+                  <UserNameStyle>
+                    <UserName rankCU={rankCU[index]}></UserName>
+                    <UserTier rankCU={rankCU[index]}></UserTier>
+                  </UserNameStyle>
+                </div>
+                {/* <UserWinLose rankCU={rankCU[index]}></UserWinLose> */}
+              </LiStyle>
+            ))}
         </UlStyle>
       </div>
       <div></div>
-    </RankUser>
+    </RankList>
   );
 }
 

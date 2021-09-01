@@ -25,11 +25,11 @@ export const GetRankingAPI = async () => {
     entries[key].tier = 'CHALLENGER';
   }
 
-  const ss = entries.filter((v, i) => {
+  const rankfive = entries.filter((v, i) => {
     return i < 5;
   });
 
-  return ss;
+  return rankfive;
 };
 
 export default GetRankingAPI;
