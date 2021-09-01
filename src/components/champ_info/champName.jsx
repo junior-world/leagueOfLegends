@@ -7,10 +7,11 @@ const NameDiv = styled.div`
 `;
 
 const ChampNameDiv = styled.div`
-  font-size: 13px;
+  font-size: ${(props) =>
+    props.detailDesign === 'detailChamp' ? '50px' : '13px'};
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #777;
+  color: black;
   text-shadow: 1px 1px #2d63a7;
   padding-left: 8px;
 `;
@@ -18,7 +19,9 @@ const ChampNameDiv = styled.div`
 function ChampName(props) {
   return (
     <NameDiv>
-      <ChampNameDiv>{props.champName}</ChampNameDiv>
+      <ChampNameDiv detailDesign={props.detailDesign}>
+        {props.champName}
+      </ChampNameDiv>
     </NameDiv>
   );
 }

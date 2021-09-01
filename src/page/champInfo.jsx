@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import React from 'react';
 
+=======
+>>>>>>> f2ad9f37354f9dde2ac7bf666bd713126bc2774b
 import styled from 'styled-components';
 import NavBar from '../components/main/NavBar';
 import ChampRotation from '../components/champ_info/rotation_info/champRotation';

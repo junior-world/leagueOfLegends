@@ -11,13 +11,9 @@ import { GetRotationAPI } from './getRotationAPI';
  * @returns ratationData -> 배열 객체 -> [{id: allChampionData[key].id, name: allChampionData[key].name}]
  */
 const GetRotationData = async () => {
-  let rotationAPI;
+  const rotationAPI = await GetRotationAPI();
   const allChampionData = await GetAllChampData();
   let rotationData = [];
-
-  await GetRotationAPI().then((res) => {
-    rotationAPI = res;
-  });
 
   //rotationAPI 에 들어있는 key값을 통해 allChampionData의 key값을 찾고, 그 후 찾은 key를 가지고 있는 객체의 id와 name값을 반환.
   for (const key in allChampionData) {

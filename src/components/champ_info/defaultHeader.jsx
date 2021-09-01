@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const Header = styled.div`
@@ -13,16 +12,17 @@ const Header = styled.div`
 const Title = styled.p`
   font-weight: bold;
   font-style: italic;
+  font-size: 19px;
   margin: 0px;
   margin-left: 20px;
 `;
 
-function RotationHeader(props) {
+function DefaultHeader(props) {
   return (
     <Header>
-      <Title>- 금주의 로테이션 챔피언</Title>
+      <Title>{props.headerTitle}</Title>
     </Header>
   );
 }
 
-export default RotationHeader;
+export default DefaultHeader;

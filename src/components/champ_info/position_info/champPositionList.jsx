@@ -6,6 +6,7 @@ import * as config from '../../../config';
 import ChampName from '../champName';
 import { championLineContext } from './champList';
 import * as Hangul from 'hangul-js';
+import { Link } from 'react-router-dom';
 
 const ChampSection = styled.div`
   display: flex;
@@ -20,6 +21,10 @@ const ChampItem = styled.div`
   white-space: nowrap;
   display: flex;
   flex-direction: column;
+`;
+
+const HLink = styled(Link)`
+  text-decoration: none;
 `;
 
 function ChampPositionList(props) {
@@ -86,24 +91,30 @@ const getPositionChampItem = (champion, champPosition) => {
     });
   }
 };
-
 /**
- *
+ * ***리팩토리 대상(Link 부분을 하나의 컴포넌트로 그리고 props로 관리. 로테이션과 같이 사용할 수 있도록) ***
  * @param {*} champion allChampion data에서 하나씩 data를 전달받음.
  * @returns 해당되는 챔피언의 데이터를 통해 챔피언의 img 와 Name으로 만들어진 컴포넌트를 반환
  */
 const getChampItem = (champion) => {
   return (
-    <ChampItem key={champion[1].id + champion[1].name}>
-      <ChampImg
-        key={champion[1].id}
-        imagePath={config.CHAMPION_ICON_IMG + champion[1].id + '.png'}
-      />
-      <ChampName
-        key={champion[1].name} //lol 챔피언 이름은 중복 가능성이 없으므로 key로 사용
-        champName={champion[1].name}
-      />
-    </ChampItem>
+    <HLink
+      key={champion[1].key}
+      to={{
+        pathname: '/championInfo/' + champion[1].id,
+        state: { championId: champion[1].id },
+      }}>
+      <ChampItem key={champion[1].id + champion[1].name}>
+        <ChampImg
+          key={champion[1].id}
+          imagePath={config.CHAMPION_ICON_IMG + champion[1].id + '.png'}
+        />
+        <ChampName
+          key={champion[1].name} //lol 챔피언 이름은 중복 가능성이 없으므로 key로 사용
+          champName={champion[1].name}
+        />
+      </ChampItem>
+    </HLink>
   );
 };
 
