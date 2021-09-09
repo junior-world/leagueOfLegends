@@ -16,6 +16,13 @@ function GameChart(props) {
     const {arrList} = props;
     const canvasDom = useRef(null);
 
+    let win = 0 ;
+    let totalGame = 0;
+    arrList.forEach( list =>{
+        win += list.win;
+        totalGame += list.count
+    })
+    
     useEffect(() => {
       const ctx = canvasDom.current.getContext('2d');
       Chart.register(...registerables);
@@ -27,15 +34,10 @@ function GameChart(props) {
         doughnut.destroy();
       })
 
-    }, [])
+    }, [totalGame])
 
 
-    let win = 0 ;
-    let totalGame = 0;
-    arrList.forEach( list =>{
-        win += list.win;
-        totalGame += list.count
-    })
+   
     
 
     return (

@@ -7,20 +7,20 @@ function Runes(props) {
     const {user,width} = props;
 
      //룬 깨너자 
-     const myRouns = runsSummury.find( run =>( user.stats.perkPrimaryStyle === run.id));
-     
+     const myRouns = runsSummury.find( run =>( user.perks.styles[0].style === run.id));
+
      // perk0속성은 첫번쨰 룬
      let perk;
      myRouns.slots.map( slots =>{
          return slots.runes})
          .forEach(slot =>{
            slot.forEach( rune => {
-               if(rune.id === user.stats.perk0 ){
+               if(rune.id === user.perks.styles[0].selections[0].perk ){
                  perk = rune;
                }
            })
          })
-
+ 
     return (
         <>
             <img src={`https://ddragon.leagueoflegends.com/cdn/img/${perk.icon}`} style={{width:width}} alt='메인2'/>

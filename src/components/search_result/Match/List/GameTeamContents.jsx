@@ -15,8 +15,7 @@ const Each = styled.div`
 function GameTeamContents(props) {
 
     // teamInfos는 팀 한명의 개인 아이디 정보
-    const {teamInfos,totalParticipants,myPlayInfo} = props;
-
+    const {teamInfos,myPlayInfo} = props;
     return (
         <Each >
         {
@@ -24,7 +23,7 @@ function GameTeamContents(props) {
             <GameTeam key={team.participantId} 
             team={team} 
             myPlayInfo={myPlayInfo} 
-            totalParticipants={totalParticipants}/>
+           />
         ))
         }
         </Each>

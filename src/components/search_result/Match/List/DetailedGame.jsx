@@ -32,30 +32,27 @@ const ChampSpace = styled(Row)`
 
 
 
-function DetailedGame({user, teamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}) {
+function DetailedGame({user, myPlayInfo,kda,maxDamage , matchInfo}) {
 
-    const {champSummury} = useContext(ChamSumContext);
-
-    const teamInfo = teamInfos.find( team =>team.participantId === user.participantId);
     
     const items1 = {
-        item0 : user.stats.item0,
-        item1 : user.stats.item1,
-        item2 : user.stats.item2,
+        item0 : user.item0,
+        item1 : user.item1,
+        item2 : user.item2,
     }
     const items2 = {
-        item0 : user.stats.item3,
-        item1 : user.stats.item4,
-        item2 : user.stats.item5,
+        item0 : user.item3,
+        item1 : user.item4,
+        item2 : user.item5,
     }
 
-    const average = ((user.stats.kills + user.stats.assists) /user.stats.deaths).toFixed(2);
+    const average = ((user.kills + user.assists) /user.deaths).toFixed(2);
 
     return (
         <Contents>
             {/* team에는 아이디하고 닉네임 정보가 들어가고 total에는 우리팀 유저가 들어감 */}
             <ChampSpace>
-                <GameTeam  team={teamInfo} totalParticipants={[user]} champSummury={champSummury} myPlayInfo={myPlayInfo}/>
+                <GameTeam  team={user}  myPlayInfo={myPlayInfo}/>
             </ChampSpace>
             <Row>
                 <Col>
@@ -68,19 +65,19 @@ function DetailedGame({user, teamInfos, myPlayInfo,kda,maxDamage ,  matchInfo}) 
             <Row>   
                 <Kda className="kda">
                 {average >3 ?  <div style={{color:'#0066FF'}}>{ average }:1</div> :<div style={{color:'#555e5e'}}>{ average }:1</div> }
-                    <span>{user.stats.kills}/{user.stats.deaths}/{user.stats.assists} ({( ( (user.stats.kills+user.stats.assists) / kda.hap )*100).toFixed()}%) </span>
+                    <span>{user.kills}/{user.deaths}/{user.assists} ({( ( (user.kills+user.assists) / kda.hap )*100).toFixed()}%) </span>
                 </Kda>
                 <Kda>
-                    <div>{(user.stats.totalDamageDealtToChampions).toLocaleString()}</div>
+                    <div>{(user.totalDamageDealtToChampions).toLocaleString()}</div>
                     <div style={{ backgroundColor:'#dddddd'}}>
-                        <div style={{backgroundColor:'#FF3333',width:`${(user.stats.totalDamageDealtToChampions/maxDamage*100).toFixed()}%`,height:'15px'}}></div>
+                        <div style={{backgroundColor:'#FF3333',width:`${(user.totalDamageDealtToChampions/maxDamage*100).toFixed()}%`,height:'15px'}}></div>
                     </div>
                 </Kda>
             </Row> 
             <Row>
                 <Kda>
-                    <span>{user.stats.totalMinionsKilled +user.stats.neutralMinionsKilled} cs</span>
-                    <span>분당 {((user.stats.totalMinionsKilled +user.stats.neutralMinionsKilled)/(matchInfo.gameDuration/60).toFixed()).toFixed(1)} </span>
+                    <span>{user.totalMinionsKilled +user.neutralMinionsKilled} cs</span>
+                    <span>분당 {((user.totalMinionsKilled +user.neutralMinionsKilled)/(matchInfo.gameDuration/1000/60).toFixed()).toFixed(1)} </span>
                 </Kda>
             </Row>
             <Row>

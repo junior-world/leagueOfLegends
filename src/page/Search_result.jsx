@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react'
 import { useParams
 } from "react-router-dom";
 import styled from 'styled-components';
-import SearchInfo from '../components/search_result/SearchInfo/SearchInfo';
+import SearchInfo from '../components/search_result/search_info/SearchInfo';
 import SearchNav from '../components/search_result/SearchNav';
 import SearchMain from '../components/search_result/SearchMain';
 import {getChampionAPI} from '../controller/search_result/riotJsonAPI';
@@ -49,19 +49,9 @@ function SearchResult() {
     },[])       
 
     if(searchInfo){
-        const item = {
-           name : searchInfo.name,
-           profileIconId : searchInfo.profileIconId,
-           time : Date.now(),
-        }
-        const getItem = JSON.parse(localStorage.getItem(searchInfo.name));
 
-        if(getItem){
-            localStorage.removeItem(summonerName.summonersName)
-        }
-        localStorage.setItem(searchInfo.name, JSON.stringify(item));
-     
-
+        //최근 본 유저를 localStorage에 저장
+        recentsUserList(searchInfo);
     }
     
     return (
@@ -93,3 +83,20 @@ function SearchResult() {
 }
 
 export default SearchResult;
+
+
+
+
+/**
+ * 
+ * @param {*검색한 플레이어의 정보} searchInfo 
+ */
+const recentsUserList = (searchInfo) =>{
+    const item = {
+        name : searchInfo.name,
+        profileIconId : searchInfo.profileIconId,
+        time : Date.now(),
+     }
+  
+     localStorage.setItem(searchInfo.name, JSON.stringify(item));
+} 

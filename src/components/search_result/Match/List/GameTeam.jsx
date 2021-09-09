@@ -22,20 +22,10 @@ const ChampNick = styled(Link)`
     font-size: 14px;
 `
 
-function GameTeam({team,totalParticipants,myPlayInfo}) {
+function GameTeam({team,myPlayInfo}) {
 
-    let championId;
-    /**
-     *  전체 플레이어중 검색한 플레이어의 id정보와 같다면
-     *  챔피언 아이디를 꺼내옴
-     *  */ 
-    totalParticipants.forEach( participant => {
-        if(team.participantId === participant.participantId){
-            championId = participant.championId ;
-        }
-    });
+    const championId = team.championId;
 
-    
     /***
      * 
      *  검색한 플레이어의 정보를 넣고
@@ -43,12 +33,12 @@ function GameTeam({team,totalParticipants,myPlayInfo}) {
      */
     if(myPlayInfo){
 
-        const span =  team.participantId === myPlayInfo.participantId ? <Span myPlayInfo>{team.player.summonerName}</Span> : <Span>{team.player.summonerName}</Span>
+        const span =  team.participantId === myPlayInfo.participantId ? <Span myPlayInfo>{team.summonerName}</Span> : <Span>{team.summonerName}</Span>
         return (
             <>
                 <Teams>
                     <ChampionImg championId={championId} width='22px' marginLeft="3px"/>
-                    <ChampNick to={`/summoners/${team.player.summonerName}`}>{span}</ChampNick> 
+                    <ChampNick to={`/summoners/${team.summonerName}`}>{span}</ChampNick> 
                 </Teams>
                
             </>
@@ -56,7 +46,7 @@ function GameTeam({team,totalParticipants,myPlayInfo}) {
 
     }else{
 
-        const span = <Span>{team.player.summonerName}</Span>
+        const span = <Span>{team.summonerName}</Span>
         return (
             <>
                 <Teams>

@@ -10,20 +10,19 @@ const DetailedHeader = styled.div`
 
 function DetailedContents(props) {
 
-    const {teams,matchInfo,myPlayInfo,maxDamage,teamKda,teamInfos,enermy} = props
+    const {teams,matchInfo,myPlayInfo,maxDamage,teamKda,enermy} = props
     
     return (
         <DetailedHeader>
-            <TeamKda kda={teamKda} matchInfo={matchInfo} myPlayInfo={myPlayInfo} enermy={enermy}/>
+            <TeamKda kda={teamKda} matchInfo={matchInfo.info} myPlayInfo={myPlayInfo} enermy={enermy}/>
             {
             teams.map( user => 
             <DetailedGame key={user.participantId}
                 user={user}  
-                teamInfos={teamInfos}
                 myPlayInfo={myPlayInfo} 
                 kda={teamKda}
                 maxDamage={maxDamage}  
-                matchInfo={matchInfo}/>
+                matchInfo={matchInfo.info}/>
             )
             }
         </DetailedHeader>

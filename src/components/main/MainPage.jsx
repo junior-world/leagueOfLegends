@@ -57,6 +57,12 @@ function MainPage() {
     const history = useHistory();
 
 
+    console.log('ㅎㅇ')
+
+
+
+
+
     useLayoutEffect(() => {
         let newLocal = []
         for(let i =localStorage.length-1; i>=0; i--){
@@ -65,7 +71,6 @@ function MainPage() {
         }
         
         newLocal.sort((a,b)=>{
-            console.log(a,b)
             if(a.time > b.time){
                 return -1;
             }else if(a.time < b.time){
@@ -77,12 +82,12 @@ function MainPage() {
         setLocalSave(newLocal);
     }, [])
        
-    console.log(localSave)
 
     const siteChange = (e) =>{
         e.preventDefault();
         history.push(`/summoners/${value}`)
     }
+
     const valueChangHandler = (e) =>{
         setValue(e.currentTarget.value);
     }
@@ -111,11 +116,13 @@ function MainPage() {
             </Form>
        
             <Row>
-                {localSave.map(ls => (
-                    <LocalSave  key ={ls.name} ls={ls} removeHandler={removeHandler}/>
+                {
+                localSave.map(ls => (
+                    <LocalSave  key ={ls.name} 
+                        ls={ls}
+                        removeHandler={removeHandler}/>
                     ))
                 }
-                
             </Row>
             
            

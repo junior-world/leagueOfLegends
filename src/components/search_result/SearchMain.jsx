@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MatchLists from './Match/MatchLists';
 import {ChamSumContext} from '../../page/Search_result';
 import {getRunesAPI, getSpellAPI} from '../../controller/search_result/riotJsonAPI';
-import {getMatchListsAPI} from '../../controller/search_result/riotAPI';
+import {getMatchListsAPI,getMatch5ListAPI} from '../../controller/search_result/riotAPI';
 const Main = styled.main`
     display: flex;
     
@@ -34,7 +34,6 @@ const SearchMain = (props) => {
     const [count, setCount] = useState(0);
     const [newMatchLists, setNewMatchLists] = useState();
 
- 
     // 스펠,챔피언,룬
     useEffect(() => {
             
@@ -46,26 +45,20 @@ const SearchMain = (props) => {
 
     // 게임 리스트
     useEffect(() => {
-
-        getMatchListsAPI(searchInfo.accountId,count).then(res =>{
+        getMatch5ListAPI(searchInfo.puuid, count ).then(res =>{
             setCount(count+5)
-            setMatchLists(res.data.matches)
-        })
+            setMatchLists(res.data)
+         })
         
-    }, [searchInfo.accountId])
+    }, [searchInfo.puuid])
   
 
     const onClickHandler =  async (e) =>{
         e.preventDefault();
-
-        if(count > 15){
-            return ;
-        }else{
-            getMatchListsAPI(searchInfo.accountId,count).then(res =>{
-                setNewMatchLists(res.data.matches);
-            })
+        getMatch5ListAPI(searchInfo.puuid, count).then(res =>{
+            setNewMatchLists(res.data);
+        })
             
-        }
         setCount(count+5);
     }
 
@@ -78,7 +71,8 @@ const SearchMain = (props) => {
                             matchLists ={matchLists} 
                             searchInfo={searchInfo} 
                             onClickHandler={onClickHandler} 
-                            newMatchLists={newMatchLists}/>
+                            newMatchLists={newMatchLists}
+                            count={count}/>
                     </RiotContext.Provider>
                 }   
             </Col>

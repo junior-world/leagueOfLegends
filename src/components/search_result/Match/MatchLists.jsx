@@ -2,7 +2,7 @@ import React,{useEffect,useState, createContext} from 'react';
 import styled from 'styled-components';
 import MatchInfo from './list/MatchInfo';
 import SubContents from './subcontents/SubContents';
-import {getMatchInfoAPI} from '../../../controller/search_result/riotAPI';
+import {getMatchInfo5API} from '../../../controller/search_result/riotAPI';
 
 
 const Main = styled.div`
@@ -30,7 +30,7 @@ export const MatchInfoContext = createContext();
 
 const MatchLists = (props) => {
    
-    const {matchLists , searchInfo,onClickHandler, newMatchLists} = props;
+    const {matchLists , searchInfo,onClickHandler, newMatchLists,count} = props;
     const [matchInfo, setMatchInfo] = useState()
     const [run, setRun] = useState(true)
 
@@ -46,18 +46,20 @@ const MatchLists = (props) => {
     }, [newMatchLists])
 
     const onClickNewMatchLists = async (e) =>{
-        setRun(false)
-        await onClickHandler(e);
-
+        if(count<20){
+            setRun(false)
+            await onClickHandler(e);
+        }
+       
     }
 
  
         return (
             <MainContents>
 
-                <Main>
+                 <Main>
                     { matchInfo && matchInfo.map( matchInfo => (
-                        <MatchInfo key={matchInfo.gameId} 
+                        <MatchInfo key={matchInfo.metadata.matchId} 
                             matchInfo={matchInfo} 
                             searchInfo={searchInfo} />))    
                     }
@@ -67,10 +69,10 @@ const MatchLists = (props) => {
                     }
                 </Main>
 
-                
+                 
                 <MatchInfoContext.Provider value ={{matchInfo}}>
                      <SubContents /> 
-                </MatchInfoContext.Provider>
+                </MatchInfoContext.Provider> 
                 
             </MainContents>
         );
@@ -89,7 +91,7 @@ export default MatchLists;
   const getMatchInfo =  matchLists => {
     const res = Promise.all( 
         matchLists.map( (matchList) => { 
-            return getMatchInfoAPI(matchList.gameId)
+            return getMatchInfo5API(matchList)
             .then(res => {
                 return  res.data;
             })

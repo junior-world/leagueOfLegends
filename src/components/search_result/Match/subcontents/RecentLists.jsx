@@ -22,7 +22,6 @@ function RecentLists() {
     const {matchInfo} = useContext(MatchInfoContext)
     const {searchInfo} =  useContext(ChamSumContext)
 
-    let participantId ; 
     let recentArray = [];
 
     const recentsObj = {
@@ -38,28 +37,21 @@ function RecentLists() {
 
     matchInfo.forEach( info => {
         let newObj= {}
-        
-        for(const identity of info.participantIdentities){
-            if(searchInfo.accountId === identity.player.accountId ){
-                participantId = identity.participantId;
-                break;
-             }
-        }
 
-        for(const player of info.participants){
-            if(player.participantId === participantId){
+        for(const player of info.info.participants){
+            if(searchInfo.puuid === player.puuid){
                 
                  newObj ={
                     ...recentsObj,
-                    win : player.stats.win,
-                    death : player.stats.deaths,
-                    assist : player.stats.assists,
-                    kill :  player.stats.kills,
+                    win : player.win,
+                    death : player.deaths,
+                    assist : player.assists,
+                    kill :  player.kills,
                     championId : player.championId,
                     count : recentsObj.count+1,
-                    cs : player.stats.totalMinionsKilled + player.stats.neutralMinionsKilled,
-                    creationTime :info.gameCreation,
-                    gameDuration : info.gameDuration,
+                    cs : player.totalMinionsKilled + player.neutralMinionsKilled,
+                    creationTime :info.info.gameCreation,
+                    gameDuration : info.info.gameDuration,
                 }
                 break;
             }

@@ -20,12 +20,14 @@ export const ENTRIES_URL =`/lol/league/v4/entries/by-summoner/`;
 // ?endIndex=19 20 가져오기  에서 matchId를 가져오고 
 // 소환사 최근 게임 가져오기  
 // https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20
-// 여긴 match-V5
-// export const MATCHLISTS_URL = `/lol/match/v5/matches/by-puuid/` 
+// 여긴 match-V5 리스트
+export const MATCHLISTS5_URL = `/lol/match/v5/matches/by-puuid/` 
  
 ///lol/match/v4/matchlists/by-account/1tt6BqbDr6XchhkNBASZCvqj7LCPUljgTGCjjxqxMUAo?endIndex=19&beginIndex=0&api_key=
 export const MATCHLISTS_URL = `/lol/match/v4/matchlists/by-account/`;
 
+// 여긴 match-V5 인포
+export const MATCHS5_URL = `/lol/match/v5/matches/`;
 
 // 해당게임에 대한 내용(아이템,팀원 승, 패 등등) 가져오기 
 // https://kr.api.riotgames.com/lol/match/v4/matches/{matchId}
