@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import NavBar from '../components/main/NavBar';
 import ChampRotation from '../components/champ_info/rotation_info/champRotation';
@@ -21,5 +22,4 @@ function ChampInfo(props) {
     </div>
   );
 }
-
 export default ChampInfo;

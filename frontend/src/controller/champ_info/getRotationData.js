@@ -32,6 +32,7 @@ const GetRotationData = async () => {
   }
   //가나다순 정렬 실행
   rotationData = rotationData.sort(SortDesc);
+
   return rotationData;
 };
 
