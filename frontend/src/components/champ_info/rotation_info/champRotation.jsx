@@ -6,6 +6,7 @@ import ChampImg from '../champImg';
 import * as config from '../../../config';
 import ChampName from '../champName';
 import { Link } from 'react-router-dom';
+import BackendTest from '../../../controller/champ_info/backendTest';
 
 const RotationSection = styled.div`
   display: flex;
@@ -38,6 +39,9 @@ function ChampRotation(props) {
   const [rotationData, setRotationData] = useState([]);
 
   useEffect(() => {
+    BackendTest().then((res) => {
+      console.log(res);
+    });
     GetRotationData().then((res) => {
       setRotationData(res);
       setIsRotationLoading(true);
