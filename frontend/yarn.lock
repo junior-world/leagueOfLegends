@@ -5694,14 +5694,11 @@ handle-thing@^2.0.0:
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
   integrity sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==
 
-<<<<<<< HEAD:frontend/yarn.lock
-=======
 hangul-disassemble@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/hangul-disassemble/-/hangul-disassemble-0.5.2.tgz#dbc7752e6bb30743205ae68b57e84d6670023406"
   integrity sha1-28d1LmuzB0MgWuaLV+hNZnACNAY=
 
->>>>>>> 2446b9bce1b484340735a8d1c54a38c5ad19f754:yarn.lock
 hangul-js@^0.2.6:
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/hangul-js/-/hangul-js-0.2.6.tgz#3e552e3a68c76498cf2c7993ca354af7bad4730d"
@@ -11039,11 +11036,7 @@ svgo@^1.0.0, svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-<<<<<<< HEAD:frontend/yarn.lock
-swiper@^6.8.3:
-=======
 swiper@^6.8.4:
->>>>>>> 2446b9bce1b484340735a8d1c54a38c5ad19f754:yarn.lock
   version "6.8.4"
   resolved "https://registry.yarnpkg.com/swiper/-/swiper-6.8.4.tgz#938fed4144f4d7952fbf9c44e5832d133a4de794"
   integrity sha512-O+buF9Q+sMA0H7luMS8R59hCaJKlpo8PXhQ6ZYu6Rn2v9OsFd4d1jmrv14QvxtQpKAvL/ZiovEeANI/uDGet7g==
