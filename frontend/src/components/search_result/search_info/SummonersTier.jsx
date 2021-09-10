@@ -13,7 +13,7 @@ function SummonersTier(props) {
 
     const solo = {
         type:'솔로랭크',
-        tier : 'Unranked',
+        tier : 'UnRanked',
         rank : '',
         win : 0,
         lose : 0,
@@ -21,7 +21,7 @@ function SummonersTier(props) {
     }
     const team = {
         type:'자유랭크',
-        tier : 'Unranked',
+        tier : 'UnRanked',
         rank : '',
         win : 0,
         lose : 0,

@@ -1,9 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import styled from 'styled-components'
 import SummonersTier from './SummonersTier';
-import axios from 'axios';
-import {ENTRIES_URL} from '../../config';
-
+import {getTierAPI} from '../../../controller/search_result/riotAPI';
 
 const Header = styled.header`
     max-width: 1350px;
@@ -51,17 +49,14 @@ const H3 = styled.h3`
     border-radius: 15px;
 `
 
-const apiKEY = process.env.REACT_APP_API_KEY; 
-
 const SearchInfo = (props) => {
 
-    
     const {searchInfo } = props   
     const [summonnerTier, setSummonnerTier] = useState();
 
     useEffect(() => {
-        axios.get(`${ENTRIES_URL}${searchInfo.id}?api_key=${apiKEY}`)
-        .then(res => {
+
+        getTierAPI(searchInfo.id).then(res => {
             if(res.status === 200){
                 setSummonnerTier(res.data)
             }else{
@@ -75,17 +70,18 @@ const SearchInfo = (props) => {
         <Header>
             {summonnerTier &&
                 <>
-                
                     <DivCol>
                          <img src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/profileicon/${searchInfo.profileIconId}.png`} alt="프로필사진" style={{borderRadius:'10px',width:'100px'}}/>
-                    <AbDiv>
-                        <AbP>{searchInfo.summonerLevel}</AbP>
-                    </AbDiv>
+                        <AbDiv>
+                            <AbP>{searchInfo.summonerLevel}</AbP>
+                        </AbDiv>
                     </DivCol>
                     <UpDiv>
-                    <H3>{searchInfo.name}</H3>
-                    <Button>업데이트</Button>
+                        <H3>{searchInfo.name}</H3>
+                        <Button>업데이트</Button>
                     </UpDiv>
+
+
                      <SummonersTier summonnerTier={summonnerTier}/>  
                 </>}
             

@@ -24,11 +24,16 @@ const ObjScore = styled(Row)`
 
 function TeamKda(props) {
     
-    const {kda , matchInfo,myPlayInfo} = props;
+    const {kda , matchInfo,myPlayInfo,enermy} = props;
+    let team;
 
-    let team = matchInfo.teams.filter( team => team.teamId === myPlayInfo.teamId)
-
+    if(enermy){
+        team  = matchInfo.teams.filter( team => team.teamId !== myPlayInfo.teamId)
+    }else{
+        team  = matchInfo.teams.filter( team => team.teamId === myPlayInfo.teamId)
+    }
     const teamOj = Object.assign({}, team[0]);
+    console.log(teamOj)
 
             /** teamOj 속성들                                      kda 속성들
                     bans: []                                               hap: 54,   
@@ -49,14 +54,17 @@ function TeamKda(props) {
                     win: "Win"
             **/
 
+    const match = teamOj.win ? '승리' : '패배'; 
 
-    const match = teamOj.win === "Win" ? '승리' : '패배'; 
     return (
-        <Row className = {`${teamOj.win === 'Win' ? 'win': 'lose'}`}>
-            <span style={{color:'white'}}>{match}({teamOj.teamId === 200 ? '레드팀' : '블루팀'})</span> <span>{kda.hap} / {kda.death} / {kda.assist}</span>
+       
+        <Row className = {`${teamOj.win  ? 'win': 'lose'}`}>
+            <span style={{color:'white'}}>{match}({teamOj.teamId === 200 ? '레드팀' : '블루팀'})</span> 
+            <span>{kda.hap} / {kda.death} / {kda.assist}</span>
             <ObjScore>
-                <span><img style={{width:'20px'}} src='/img/object/icon-baron-r.png' alt='바론'/>{teamOj.baronKills}</span><span><img style={{width:'20px'}} src='/img/object/icon-dragon-r.png' alt='드래곤'/>{teamOj.dragonKills}</span>
-                <span><img style={{width:'20px',height:'20px'}} src='/img/object/icon-tower-r.png' alt='타워'/>{teamOj.towerKills}</span> 
+                <span><img style={{width:'20px'}} src='/img/object/icon-baron-r.png' alt='바론'/>{teamOj.objectives.baron.kills}</span>
+                <span><img style={{width:'20px'}} src='/img/object/icon-dragon-r.png' alt='드래곤'/>{teamOj.objectives.dragon.kills}</span>
+                <span><img style={{width:'20px',height:'20px'}} src='/img/object/icon-tower-r.png' alt='타워'/>{teamOj.objectives.tower.kills}</span> 
             </ObjScore>
             <span>{kda.totalGold}</span>    
         </Row>
