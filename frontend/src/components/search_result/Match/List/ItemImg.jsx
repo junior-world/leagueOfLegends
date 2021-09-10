@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import opacity from '../../../../image/opacity.png';
 
 
 const Row = styled.div`
@@ -9,7 +10,7 @@ const Row = styled.div`
 const ImgDiv = styled.div`
     width: ${p=>p.width ?  p.width : '32px'};
     height: ${p=>p.width ?  p.width : '32px'};
-    background-image: url(${p => p.item !== 0 ? `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${p.item}.png` : ''});
+    background-image: url(${p => p.item !== 0 ? `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${p.item}.png` : opacity});
     background-size: 100% 100%;
     background-repeat: no-repeat;
     margin: 1px;
