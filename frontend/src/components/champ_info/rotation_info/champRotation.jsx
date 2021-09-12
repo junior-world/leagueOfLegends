@@ -38,24 +38,15 @@ function ChampRotation(props) {
     const [isRotationLoading, setIsRotationLoading] = useState(false);
     const [rotationData, setRotationData] = useState([]);
 
-<<<<<<< HEAD:frontend/src/components/champ_info/rotation_info/champRotation.jsx
-  useEffect(() => {
-    BackendTest().then((res) => {
-      console.log(res);
-    });
-    GetRotationData().then((res) => {
-      setRotationData(res);
-      setIsRotationLoading(true);
-    });
-  }, []);
-=======
     useEffect(() => {
+        BackendTest().then((res) => {
+            console.log(res);
+        });
         GetRotationData().then((res) => {
             setRotationData(res);
             setIsRotationLoading(true);
         });
     }, []);
->>>>>>> feature/home:src/components/champ_info/rotation_info/champRotation.jsx
 
     return (
         <RotationSection>

@@ -20,11 +20,7 @@ export const ALL_CHAMPION_DATA =
 
 //http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/<champion_name>.json
 export const CHAMPION_DATA =
-<<<<<<< HEAD:frontend/src/config.js
-  'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/'; //특정 챔피언 정보
-=======
     'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/'; //특정 챔피언 정보
->>>>>>> feature/home:src/config.js
 
 //https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/<champion_name>.png
 export const CHAMPION_ICON_IMG =
@@ -43,7 +39,7 @@ export const ENTRIES_URL = `/lol/league/v4/entries/by-summoner/`;
 // 소환사 최근 게임 가져오기
 // https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids?start=0&count=20
 // 여긴 match-V5
-export const MATCHLISTS5_URL = `/lol/match/v5/matches/by-puuid/` 
+export const MATCHLISTS5_URL = `/lol/match/v5/matches/by-puuid/`;
 
 // 여긴 match-V5 인포
 export const MATCHS5_URL = `/lol/match/v5/matches/`;
@@ -55,7 +51,7 @@ export const MATCHLISTS_URL = `/lol/match/v4/matchlists/by-account/`;
 // https://kr.api.riotgames.com/lol/match/v4/matches/{matchId}
 export const MATCHS_URL = `/lol/match/v4/matches/`;
 
-export const MATCH5_URL = `/lol/match/v5/matches/by-puuid/{puuid}/ids`
+export const MATCH5_URL = `/lol/match/v5/matches/by-puuid/{puuid}/ids`;
 // 모든 스펠 정보
 export const SPELL_DATA = `http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/summoner.json`;
 // http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/<spell_name>.png
