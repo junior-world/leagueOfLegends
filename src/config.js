@@ -10,24 +10,24 @@
 export const RANK_INFO = `/lol/league-exp/v4/entries/RANKED_SOLO_5x5/`; //소환사 랭크 정보
 export const USER_INFO = `/lol/summoner/v4/summoners/by-name/`; //소환사 이름에 따른 정보
 export const PROFILE_ICON =
-  'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/profileicon.json'; //유저 아이콘 모든 정보
+    'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/profileicon.json'; //유저 아이콘 모든 정보
 export const CHALLENGER_LEAGE =
-  '/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5'; // 챌린저 티어 랭크 정보 조회 API
+    '/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5'; // 챌린저 티어 랭크 정보 조회 API
 export const ROTATION_CHAMPION = '/lol/platform/v3/champion-rotations'; //챔피언 로테이션 API
 
 export const ALL_CHAMPION_DATA =
-  'https://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion.json'; //모든 챔피언 정보
+    'https://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion.json'; //모든 챔피언 정보
 
 //http://ddragon.leagueoflegends.com/cdn/11.6.1/data/ko_KR/champion/<champion_name>.json
 export const CHAMPION_DATA =
-  'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/.json'; //특정 챔피언 정보
+    'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion/'; //특정 챔피언 정보
 
 //https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/<champion_name>.png
 export const CHAMPION_ICON_IMG =
-  'https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/';
+    'https://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/';
 
 export const CHAMPIONS_DATA =
-  'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion.json'; //모든 챔피언 정보
+    'http://ddragon.leagueoflegends.com/cdn/11.16.1/data/ko_KR/champion.json'; //모든 챔피언 정보
 
 // (소환사 id , 닉네임) 등등 기본정보 url
 export const SUMMONER_URL = `/lol/summoner/v4/summoners/by-name/`;
@@ -48,6 +48,7 @@ export const MATCHLISTS_URL = `/lol/match/v4/matchlists/by-account/`;
 // https://kr.api.riotgames.com/lol/match/v4/matches/{matchId}
 export const MATCHS_URL = `/lol/match/v4/matches/`;
 
+export const MATCH5_URL = `/lol/match/v5/matches/by-puuid/{puuid}/ids`
 // 모든 스펠 정보
 export const SPELL_DATA = `http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/summoner.json`;
 // http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/<spell_name>.png
@@ -70,12 +71,12 @@ export const CHAMPION_MASTERIES = `/lol/champion-mastery/v4/champion-masteries/b
 
 //http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/<champion_name><Q/W/E/R>.png
 export const CHAMPION_SKILL_IMG =
-  'http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/';
+    'http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/';
 
 //http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/Braum_Passive.png  패시브는 이미지도 따로 존재....
 export const CHAMPION_PASSIVE_IMG =
-  'http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/';
+    'http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/';
 
 //https://ddragon.leagueoflegends.com/cdn/img/champion/loading/<champion_name>_<skins.num>.jpg
 export const CHAMPION_SKIN_LOADING_IMG =
-  'https://ddragon.leagueoflegends.com/cdn/img/champion/loading/';
+    'https://ddragon.leagueoflegends.com/cdn/img/champion/loading/';

@@ -6,24 +6,24 @@ import { GetRankingAPI } from './getLadder';
  * @returns 래더 5순위 유저의 이름 반환
  */
 export const GetIconSearch = async () => {
-  let rankAPI;
-  let userName = [];
+    let rankAPI;
+    let userName = [];
 
-  await GetRankingAPI().then((res) => {
-    rankAPI = res;
-  });
+    await GetRankingAPI().then((res) => {
+        rankAPI = res;
+    });
 
-  //래더 정보중 소환사명만 추출하여 배열에 저장
-  rankAPI.forEach((v) => {
-    userName.push(v.summonerName);
-  });
+    //래더 정보중 소환사명만 추출하여 배열에 저장
+    rankAPI.forEach((v) => {
+        userName.push(v.summonerName);
+    });
 
-  //챌린저 소환사 중 상위 5명 추출
-  const userRanker = userName.filter((v, i) => {
-    return i < 5;
-  });
+    //챌린저 소환사 중 상위 5명 추출
+    const userRanker = userName.filter((v, i) => {
+        return i < 10;
+    });
 
-  return userRanker;
+    return userRanker;
 };
 
 export default GetIconSearch;
