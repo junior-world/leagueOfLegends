@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
-import { MATCHLISTS_URL, SPELL_DATA, RUNS_DATA } from '../../config.js';
-import MatchLists from './MatchLists';
-
+import MatchLists from './Match/MatchLists';
+import { ChamSumContext } from '../../page/Search_result';
+import {
+    getRunesAPI,
+    getSpellAPI,
+} from '../../controller/search_result/riotJsonAPI';
+import {
+    getMatchListsAPI,
+    getMatch5ListAPI,
+} from '../../controller/search_result/riotAPI';
 const Main = styled.main`
     display: flex;
 `;
@@ -11,122 +17,63 @@ const Main = styled.main`
 const Col = styled.div`
     display: flex;
     flex-direction: column;
-    min-width: 857px;
+    min-width: 810px;
 `;
-
-const Button = styled.button`
-    border: 1px solid #dddddd;
-    margin: 1rem auto;
-    padding: 11px;
-    background-color: transparent;
-    border-radius: 15px;
-    cursor: pointer;
-
-    &:hover {
-        box-shadow: 2px 9px 13px 1px rgb(0 0 0 / 20%);
-    }
-`;
-
-const apiKEY = process.env.REACT_APP_API_KEY;
 
 export const RiotContext = React.createContext({
     spellSummury: [],
     runsSummury: [],
+    matchLists: [],
 });
 
 const SearchMain = (props) => {
-    const { searchInfo, champSummury } = props;
+    const { searchInfo } = useContext(ChamSumContext);
 
     const [matchLists, setMatchLists] = useState();
     const [spellSummury, setSpellSummury] = useState([]);
     const [runsSummury, setRunsSummury] = useState([]);
     const [count, setCount] = useState(0);
-    const [run, setRun] = useState(true);
+    const [newMatchLists, setNewMatchLists] = useState();
 
     // 스펠,챔피언,룬
     useEffect(() => {
-        async function dddd() {
-            const res = await axios({
-                url: `${SPELL_DATA}`,
-                method: 'GET',
-                contentType: 'application/json',
-            });
-
-            setSpellSummury(Object.entries(res.data.data));
-
-            const rune = await axios({
-                url: `${RUNS_DATA}`,
-                method: 'GET',
-                contentType: 'application/json',
-            });
-
-            setRunsSummury(rune.data);
-        }
-
-        dddd();
+        getSpellAPI().then((res) =>
+            setSpellSummury(Object.entries(res.data.data)),
+        );
+        getRunesAPI().then((res) => setRunsSummury(res.data));
     }, []);
 
     // 게임 리스트
     useEffect(() => {
-        async function matchLists() {
-            const res = await axios.get(
-                `${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${
-                    count + 5
-                }&beginIndex=${count}&api_key=${apiKEY}`,
-            );
+        getMatch5ListAPI(searchInfo.puuid, count).then((res) => {
             setCount(count + 5);
-            setMatchLists(res.data.matches);
-        }
+            setMatchLists(res.data);
+        });
+    }, [searchInfo.puuid]);
 
-        matchLists();
-    }, [searchInfo.accountId]);
-
-    const onClickHandler = (e) => {
+    const onClickHandler = async (e) => {
         e.preventDefault();
-        if (count > 15) {
-            return;
-        } else {
-            setRun(false);
-            axios
-                .get(
-                    `${MATCHLISTS_URL}${searchInfo.accountId}?endIndex=${
-                        count + 5
-                    }&beginIndex=${count}&api_key=${apiKEY}`,
-                )
-                .then((res) => {
-                    const newMatchLists = matchLists.concat(res.data.matches);
-                    setMatchLists(newMatchLists);
-                    setRun(true);
-                });
-        }
+        getMatch5ListAPI(searchInfo.puuid, count).then((res) => {
+            setNewMatchLists(res.data);
+        });
+
         setCount(count + 5);
     };
 
     return (
         <Main>
             <Col>
-                {matchLists &&
-                    matchLists.map((matchList) => (
-                        <RiotContext.Provider
-                            key={matchList.timestamp}
-                            value={{ spellSummury, runsSummury }}>
-                            <MatchLists
-                                matchList={matchList}
-                                searchInfo={searchInfo}
-                                champSummury={champSummury}
-                                spellSummury={spellSummury}
-                                runsSummury={runsSummury}
-                            />
-                        </RiotContext.Provider>
-                    ))}
-
-                <Col>
-                    {run ? (
-                        <Button onClick={onClickHandler}>더 보기</Button>
-                    ) : (
-                        <Button> 로딩,,,</Button>
-                    )}
-                </Col>
+                {matchLists && (
+                    <RiotContext.Provider value={{ spellSummury, runsSummury }}>
+                        <MatchLists
+                            matchLists={matchLists}
+                            searchInfo={searchInfo}
+                            onClickHandler={onClickHandler}
+                            newMatchLists={newMatchLists}
+                            count={count}
+                        />
+                    </RiotContext.Provider>
+                )}
             </Col>
         </Main>
     );

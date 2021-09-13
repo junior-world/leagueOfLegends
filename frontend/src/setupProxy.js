@@ -9,8 +9,8 @@ module.exports = (app) => {
         }),
     );
     app.use(
-        createProxyMiddleware('/api', {
-            target: 'http://61.84.24.210',
+        createProxyMiddleware('/lol', {
+            target: 'https://kr.api.riotgames.com/',
             changeOrigin: true,
         }),
     );
