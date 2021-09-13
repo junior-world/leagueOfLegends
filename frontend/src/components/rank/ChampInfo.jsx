@@ -5,22 +5,22 @@ import Champ from './Champ';
 import MostChamp from './MostChamp';
 
 function ChamInfo(props) {
-    const [match, setMatchList] = useState();
+    // const [match, setMatchList] = useState();
     const [mastery, setMastery] = useState();
 
-    useEffect(() => {
-        const champlist = async () => {
-            await axios
-                .get(
-                    `${config.MATCHLISTS_URL}${props.accountid.accountId}?endIndex=5&api_key=${process.env.REACT_APP_API_KEY}`,
-                )
-                .then((res) => {
-                    setMatchList(res.data.matches);
-                });
-        };
+    // useEffect(() => {
+    //     const champlist = async () => {
+    //         await axios
+    //             .get(
+    //                 `${config.MATCHLISTS_URL}${props.accountid.accountId}?endIndex=5&api_key=${process.env.REACT_APP_API_KEY}`,
+    //             )
+    //             .then((res) => {
+    //                 setMatchList(res.data.matches);
+    //             });
+    //     };
 
-        champlist();
-    }, [props.accountid.accountId]); //summonerv4
+    //     champlist();
+    // }, [props.accountid.accountId]); //summonerv4
 
     useEffect(() => {
         const champid = async () => {

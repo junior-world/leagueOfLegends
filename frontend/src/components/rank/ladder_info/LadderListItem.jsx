@@ -83,9 +83,19 @@ function LadderListItem(props) {
                                             }></UserWinLose>
                                     </UserNameStyle>
                                 </div>
-                                <Chamlist>
-                                    <ChampList name={icon}></ChampList>
-                                </Chamlist>
+
+                                <div style={{ margin: '0 auto' }}>
+                                    <div
+                                        style={{
+                                            margin: '0 0 20px 35px',
+                                            paddingLeft: '30px',
+                                        }}>
+                                        Most Champ
+                                    </div>
+                                    <Chamlist>
+                                        <ChampList name={icon}></ChampList>
+                                    </Chamlist>
+                                </div>
                             </LiStyle>
                         ))}
                 </UlStyle>
