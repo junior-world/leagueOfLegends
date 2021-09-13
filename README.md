@@ -3,8 +3,7 @@
 ## Role
 1. css : styled_component
 2. 변수명 : camel_case -> ex) const contentsUpload = 0;
-3. useState(value,setValue) 사용
-4. redux사용 
+3. useState(value,setValue) 사용 
 
 ## 폴더 구조
 
@@ -27,4 +26,8 @@
 
 1 .env파일 
 - API_KEY 
+
+##config
+1.변수명은 모두 대문자
+2.API URL 주소
 

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import logo from '../../image/logo.png';
 import { MdSearch } from 'react-icons/md';
+import { useHistory } from 'react-router-dom';
+import LocalSave from './LocalSave';
 
 const Hcontainer = styled.div`
     display: flex;
@@ -39,8 +41,51 @@ const Button = styled.button`
     margin: 5px 0 0 0;
     background-color: transparent;
 `;
+const Row = styled.div`
+    display: flex;
+`;
 
 function MainPage() {
+    const [value, setValue] = useState('');
+    const [localSave, setLocalSave] = useState([]);
+
+    const history = useHistory();
+
+    useLayoutEffect(() => {
+        let newLocal = [];
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+            newLocal = newLocal.concat(
+                JSON.parse(localStorage.getItem(localStorage.key(i))),
+            );
+        }
+
+        newLocal.sort((a, b) => {
+            if (a.time > b.time) {
+                return -1;
+            } else if (a.time < b.time) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        setLocalSave(newLocal);
+    }, []);
+
+    const siteChange = (e) => {
+        e.preventDefault();
+        history.push(`/summoners/${value}`);
+    };
+
+    const valueChangHandler = (e) => {
+        setValue(e.currentTarget.value);
+    };
+
+    const removeHandler = (e, name) => {
+        e.preventDefault();
+        const newLocal = localSave.filter((save) => save.name !== name);
+        setLocalSave(newLocal);
+    };
+
     return (
         <Hcontainer>
             <div style={{ display: 'block' }}>
@@ -51,11 +96,26 @@ function MainPage() {
                 />
             </div>
             <Form>
-                <Input type='text' placeholder='소환사명'></Input>
-                <Button>
+                <Input
+                    type='text'
+                    placeholder='소환사명'
+                    value={value}
+                    onChange={valueChangHandler}
+                />
+                <Button onClick={siteChange}>
                     <MdSearch size='30'></MdSearch>
                 </Button>
             </Form>
+
+            <Row>
+                {localSave.map((ls) => (
+                    <LocalSave
+                        key={ls.name}
+                        ls={ls}
+                        removeHandler={removeHandler}
+                    />
+                ))}
+            </Row>
         </Hcontainer>
     );
 }

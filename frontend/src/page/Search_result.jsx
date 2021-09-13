@@ -1,79 +1,86 @@
-import React,{useEffect,useState} from 'react'
-import {useParams
-} from "react-router-dom";
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchInfo from '../components/search_result/SearchInfo';
+import SearchInfo from '../components/search_result/search_info/SearchInfo';
 import SearchNav from '../components/search_result/SearchNav';
 import SearchMain from '../components/search_result/SearchMain';
-import {SUMMONER_URL} from '../config.js';
-import SubContents from '../components/search_result/SubContents';
-import {CHAMPIONS_DATA} from '../config';
+import { getChampionAPI } from '../controller/search_result/riotJsonAPI';
+import { getSummonerInfoAPI } from '../controller/search_result/riotAPI';
 
 const Row = styled.div`
     display: flex;
     max-width: 1350px;
     margin: 0 auto;
+`;
 
-`
-
-const apiKEY = process.env.REACT_APP_API_KEY; 
-
-export const ChamSumContext =  React.createContext({
-    champSummury: []
-  });
-
-
+export const ChamSumContext = React.createContext({
+    searchInfo: [],
+    champSummury: [],
+});
 
 function SearchResult() {
-    
-//주소창 value 부분 가져오는 것
+    //주소창 value 부분 가져오는 것
     const summonerName = useParams();
-    
-    const [searchInfo, setSearchInfo] = useState()
-    const [champSummury, setChampSummury] = useState([])
 
+    const [searchInfo, setSearchInfo] = useState();
+    const [champSummury, setChampSummury] = useState([]);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        axios.get(`${SUMMONER_URL}${summonerName.summonersName}?api_key=${apiKEY}`)
-        .then(res => {   
-            setSearchInfo(res.data)
+        getSummonerInfoAPI(summonerName.summonersName)
+            .then((res) => {
+                setSearchInfo(res.data);
             })
-        .catch(res=> console.log(res))
+            .catch((res) => setError(true));
+
         return () => {
-            setSearchInfo()
-          };
+            setSearchInfo();
+        };
+    }, [summonerName.summonersName]);
 
-          
-    }, [summonerName.summonersName])
+    useEffect(() => {
+        getChampionAPI().then((res) =>
+            setChampSummury(Object.entries(res.data.data)),
+        );
+    }, []);
 
-    useEffect(()=>{
-
-        const chmap = async ()=>{
-            const res = await axios({url: `${CHAMPIONS_DATA}`, method:'GET', contentType: "application/json"})
-            setChampSummury(Object.entries(res.data.data));
-        }
-        chmap();
-    },[])       
+    if (searchInfo) {
+        //최근 본 유저를 localStorage에 저장
+        recentsUserList(searchInfo);
+    }
 
     return (
         <div>
-            {searchInfo && 
+            {searchInfo && (
                 <>
-                        <SearchInfo searchInfo={searchInfo} /> 
-                        <hr/>
-                        <SearchNav/>
-                        <Row>  
-                            <ChamSumContext.Provider value ={{champSummury}}>
-                                <SearchMain searchInfo={searchInfo}  champSummury={champSummury}/>
-                                <SubContents searchInfo={searchInfo} champSummury={champSummury}/>
-                            </ChamSumContext.Provider>
-                        </Row>
-                    
+                    <SearchInfo searchInfo={searchInfo} />
+                    <hr />
+                    <SearchNav />
+                    <Row>
+                        <ChamSumContext.Provider
+                            value={{ champSummury, searchInfo }}>
+                            <SearchMain />
+                        </ChamSumContext.Provider>
+                    </Row>
                 </>
-            }
+            )}
+            {error && <div>소환사가 존재하지 않습니다.</div>}
         </div>
-    )
+    );
 }
 
 export default SearchResult;
+
+/**
+ *
+ * @param {*검색한 플레이어의 정보} searchInfo
+ */
+const recentsUserList = (searchInfo) => {
+    const item = {
+        name: searchInfo.name,
+        profileIconId: searchInfo.profileIconId,
+        time: Date.now(),
+    };
+
+    localStorage.setItem(searchInfo.name, JSON.stringify(item));
+};
