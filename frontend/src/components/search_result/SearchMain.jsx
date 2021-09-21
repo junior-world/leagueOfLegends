@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import MatchLists from './Match/MatchLists';
+import MatchLists from './match/MatchLists'
 import { ChamSumContext } from '../../page/Search_result';
 import {
     getRunesAPI,
