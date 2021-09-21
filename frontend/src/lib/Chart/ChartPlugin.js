@@ -38,7 +38,7 @@ export default function getChart(ctx, win ,totalGame) {
             ctx.font = fontSize + "em sans-serif";
             ctx.textBaseline = "middle";
         
-            let text = `${(win/totalGame)*100}%`,
+            let text = `${((win/totalGame)*100).toFixed()}%`,
                 textX = Math.round((width - ctx.measureText(text).width) / 2),
                 textY = height / 1.8;
         
