@@ -20,7 +20,7 @@ export const GetIconSearch = async () => {
 
     //챌린저 소환사 중 상위 5명 추출
     const userRanker = userName.filter((v, i) => {
-        return i < 10;
+        return i < 20;
     });
 
     return userRanker;

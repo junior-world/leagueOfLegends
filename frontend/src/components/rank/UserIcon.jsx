@@ -13,6 +13,8 @@ const ImgDiv = styled.div`
     overflow: hidden;
 `;
 
+const NumDiv = styled.div``;
+
 const ImgStyle = styled.img`
     position: absolute;
     width: 90px;
@@ -41,6 +43,7 @@ function UserIcon(props) {
 
     return (
         <div>
+            <NumDiv>{props.i}위</NumDiv>
             <ImgDiv>
                 {userIcon && (
                     <ImgStyle
