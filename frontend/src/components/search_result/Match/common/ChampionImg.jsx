@@ -21,7 +21,7 @@ function ChampionImg(props) {
 
     return (
         <>
-           <Img width={width} marginLeft={marginLeft} src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/${chmapionImage}`}  alt='챔피언 사진'/>
+           <Img width={width} marginLeft={marginLeft} src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/${chmapionImage}`}  alt=''/>
         </>
     )
 }
