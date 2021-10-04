@@ -28,7 +28,7 @@ export const GetRankingAPI = async () => {
     }
 
     const rankfive = entries.filter((v, i) => {
-        return i < 10;
+        return i < 20;
     });
 
     return rankfive;

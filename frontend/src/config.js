@@ -32,6 +32,8 @@ export const CHAMPIONS_DATA =
 // (소환사 id , 닉네임) 등등 기본정보 url
 export const SUMMONER_URL = `/lol/summoner/v4/summoners/by-name/`;
 
+export const ALL_LADDER = `/lol/league-exp/v4/entries/RANKED_SOLO_5x5/CHALLENGER/I`;
+
 // (소환사 티어 ,승 ,패 ,포인트) 등의 정보 url
 export const ENTRIES_URL = `/lol/league/v4/entries/by-summoner/`;
 

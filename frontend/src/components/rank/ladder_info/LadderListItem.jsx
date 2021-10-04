@@ -8,28 +8,40 @@ import UserTier from '../Tier';
 import LeaguePoint from '../LeaguePoint';
 import ChampList from '../Chamslist';
 import TopRank from '../TopRank';
+import Matchpuid from '../Matchpuid';
 
 const RankList = styled.div`
     margin: 0 auto;
     border-bottom: 1px solid #d7dada;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+`;
+const Top = styled.div`
+    display: flex;
+`;
+
+const Top2 = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
 const UlStyle = styled.ul`
     display: flex;
-    flex-direction: column;
-    width: 90%;
+    flex-direction: row;
+
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
     list-style-type: None;
     margin-top: 1rem;
 `;
 
 const LiStyle = styled.li`
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-direction: row;
-    width: 500px;
+    width: 460px;
     box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 10%);
     padding: 35px 40px;
     border-bottom: 10px;
@@ -56,17 +68,29 @@ function LadderListItem(props) {
     }, []);
 
     const rankCU = props.rankData.filter((c, i) => {
-        return i < 10;
+        return i < 20;
     });
 
     return (
         <RankList>
-            <div>
+            <div style={{ margin: '10px 0 20px 0' }}>
+                <img
+                    src={`/img/ranked-emblems/Emblem_CHALLENGER.png`}
+                    alt='티어사진'
+                    style={{
+                        width: '70px',
+                        height: '70px',
+                        float: 'left',
+                        marginLeft: '30px',
+                    }}
+                />
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
                 <UlStyle>
                     {icons &&
                         icons.map((icon, index) => (
                             <LiStyle key={index}>
-                                <UserIcon name={icon}></UserIcon>
+                                <UserIcon name={icon} i={index + 1}></UserIcon>
                                 <div>
                                     <UserNameStyle>
                                         <UserName
@@ -100,11 +124,26 @@ function LadderListItem(props) {
                         ))}
                 </UlStyle>
             </div>
-            {/* <div>
-                <div>랭킹 많이 한 챔피언</div>
-                {icons &&
-                    icons.map((v, i) => <TopRank key={i} na={v}></TopRank>)}
-            </div> */}
+            {/* <Top2> */}
+            {/* <div style={{ margin: '10px 0 20px 0' }}>
+                    <img
+                        src={`/img/ranked-emblems/Emblem_CHALLENGER.png`}
+                        alt='티어사진'
+                        style={{
+                            width: '70px',
+                            height: '70px',
+                            float: 'left',
+                            marginLeft: '30px',
+                        }}
+                    />
+                </div> */}
+            {/* <Top>
+                    {icons &&
+                        icons.map((v, i) => {
+                            return <Matchpuid key={i} puid={v}></Matchpuid>;
+                        })}
+                </Top> */}
+            {/* </Top2> */}
         </RankList>
     );
 }
