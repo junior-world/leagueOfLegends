@@ -1,4 +1,4 @@
-import React,{useState,useLayoutEffect} from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import logo from '../../image/logo.png';
 import { MdSearch } from 'react-icons/md';
@@ -43,53 +43,49 @@ const Button = styled.button`
 `;
 const Row = styled.div`
     display: flex;
-   
-`
+`;
 
 function MainPage() {
-
-    const [value , setValue] = useState('');
-    const [localSave, setLocalSave] = useState([])
+    const [value, setValue] = useState('');
+    const [localSave, setLocalSave] = useState([]);
 
     const history = useHistory();
 
-
     useLayoutEffect(() => {
-        let newLocal = []
-        for(let i =localStorage.length-1; i>=0; i--){
-            newLocal = newLocal.concat( JSON.parse(localStorage.getItem(localStorage.key(i))))
-            
+        let newLocal = [];
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+            newLocal = newLocal.concat(
+                JSON.parse(localStorage.getItem(localStorage.key(i))),
+            );
         }
-        
-        newLocal.sort((a,b)=>{
-            if(a.time > b.time){
+
+        newLocal.sort((a, b) => {
+            if (a.time > b.time) {
                 return -1;
-            }else if(a.time < b.time){
+            } else if (a.time < b.time) {
                 return 1;
-            }else{
+            } else {
                 return 0;
             }
-        })
+        });
         setLocalSave(newLocal);
-    }, [])
-       
+    }, []);
 
-    const siteChange = (e) =>{
+    const siteChange = (e) => {
         e.preventDefault();
-        history.push(`/summoners/${value}`)
-    }
+        history.push(`/summoners/${value}`);
+    };
 
-    const valueChangHandler = (e) =>{
+    const valueChangHandler = (e) => {
         setValue(e.currentTarget.value);
-    }
+    };
 
-  
-    const removeHandler = (e, name) =>{
+    const removeHandler = (e, name) => {
         e.preventDefault();
-        const newLocal = localSave.filter(save => save.name !== name)
-        setLocalSave(newLocal)
-    }
-    
+        const newLocal = localSave.filter((save) => save.name !== name);
+        setLocalSave(newLocal);
+    };
+
     return (
         <Hcontainer>
             <div style={{ display: 'block' }}>
@@ -100,23 +96,26 @@ function MainPage() {
                 />
             </div>
             <Form>
-                <Input type='text' placeholder='소환사명' value={value} onChange={valueChangHandler} />
+                <Input
+                    type='text'
+                    placeholder='소환사명'
+                    value={value}
+                    onChange={valueChangHandler}
+                />
                 <Button onClick={siteChange}>
                     <MdSearch size='30'></MdSearch>
                 </Button>
             </Form>
-       
+
             <Row>
-                {
-                localSave.map(ls => (
-                    <LocalSave  key ={ls.name} 
+                {localSave.map((ls) => (
+                    <LocalSave
+                        key={ls.name}
                         ls={ls}
-                        removeHandler={removeHandler}/>
-                    ))
-                }
+                        removeHandler={removeHandler}
+                    />
+                ))}
             </Row>
-            
-           
         </Hcontainer>
     );
 }

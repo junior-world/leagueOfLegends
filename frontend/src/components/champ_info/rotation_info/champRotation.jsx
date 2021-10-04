@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import DefaultHeader from '../defaultHeader';
-import GetRotationData from '../../../controller/champ_info/getRotationData';
-import ChampImg from '../champImg';
-import * as config from '../../../config';
-import ChampName from '../champName';
-import { Link } from 'react-router-dom';
-import BackendTest from '../../../controller/champ_info/backendTest';
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import DefaultHeader from '../defaultHeader'
+import GetRotationData from '../../../controller/champ_info/getRotationData'
+import ChampImg from '../champImg'
+import * as config from '../../../config'
+import ChampName from '../champName'
+import { Link } from 'react-router-dom'
+import BackendTest from '../../../controller/champ_info/backendTest'
 
 const RotationSection = styled.div`
   display: flex;
@@ -14,13 +14,13 @@ const RotationSection = styled.div`
   border: solid 1px #e9eff4;
   margin-top: 80px;
   flex-direction: column;
-`;
+`
 
 const RotationMain = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
-`;
+`
 
 const ChampItem = styled.div`
   width: 90px;
@@ -28,25 +28,22 @@ const ChampItem = styled.div`
   white-space: nowrap;
   display: flex;
   flex-direction: column;
-`;
+`
 
 const HLink = styled(Link)`
   text-decoration: none;
-`;
+`
 
 function ChampRotation(props) {
-  const [isRotationLoading, setIsRotationLoading] = useState(false);
-  const [rotationData, setRotationData] = useState([]);
+  const [isRotationLoading, setIsRotationLoading] = useState(false)
+  const [rotationData, setRotationData] = useState([])
 
   useEffect(() => {
-    BackendTest().then((res) => {
-      console.log(res);
-    });
     GetRotationData().then((res) => {
-      setRotationData(res);
-      setIsRotationLoading(true);
-    });
-  }, []);
+      setRotationData(res)
+      setIsRotationLoading(true)
+    })
+  }, [])
 
   return (
     <RotationSection>
@@ -74,11 +71,11 @@ function ChampRotation(props) {
                   />
                 </ChampItem>
               </HLink>
-            );
+            )
           })}
       </RotationMain>
     </RotationSection>
-  );
+  )
 }
 
-export default ChampRotation;
+export default ChampRotation

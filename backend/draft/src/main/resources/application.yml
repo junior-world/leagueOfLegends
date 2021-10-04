@@ -1,10 +1,10 @@
 spring:
   datasource:
     hikari:
-      username: newuser
-      password: cs12345678!!
+      username:
+      password:
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      jdbc-url: jdbc:log4jdbc:mysql://61.84.24.210:3306/caps?serverTimezone=UTC&characterEncoding=UTF-8
+      jdbc-url: jdbc:log4jdbc:mariadb://ip Address/DB?serverTimezone=UTC&characterEncoding=UTF-8
       connection-test-query: SELECT 1 FROM DUAL
       minimum-idle: 1
       maximum-pool-size: 5

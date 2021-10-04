@@ -22,7 +22,7 @@ const MostChampion = styled.span`
 
 function SubContents() {
 
-    const [masteries,setMasteries] = useState();
+    const [masteries,setMasteries] = useState({});
 
     const {searchInfo,champSummury } = useContext(ChamSumContext)
     const {matchInfo} = useContext(MatchInfoContext);

@@ -1,36 +1,51 @@
-import React, { useRef } from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
 
-const NameDiv = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+function UserWinLose(props) {
+    const winrate = () => {
+        return (
+            (props.rankCU.wins / (props.rankCU.wins + props.rankCU.losses)) *
+            100
+        ).toFixed(2);
+    };
 
-const ImgStyle = styled.img`
-  width: 82px;
-  height: 82px;
-  margin-left: 8px;
-`;
-
-function ChampName(props) {
-  const WinLose = useRef();
-  return (
-    <NameDiv>
-      {(() => {
-        if (props.rankCU.tier === 'CHALLENGER') {
-          return (
-            <div>
-              <div>{props.rankCU.tier}</div>
-              <ImgStyle
-                src={`/img/ranked-emblems/Emblem_${props.rankCU.tier}.png`}
-                alt='티어사진'
-              />
-            </div>
-          );
-        }
-      })()}
-    </NameDiv>
-  );
+    return (
+        <div>
+            <Doughnut
+                data={{
+                    labels: [
+                        props.rankCU.wins + '승',
+                        props.rankCU.losses + '패',
+                        '승률 : ' + winrate() + '%',
+                    ],
+                    datasets: [
+                        {
+                            data: [props.rankCU.wins, props.rankCU.losses, 0],
+                            backgroundColor: ['blue', 'red', 'white'],
+                        },
+                    ],
+                }}
+                height={300}
+                width={400}
+                options={
+                    {
+                        // maintainAspectRatio: false, //비율 고정 해제
+                        // legend: {
+                        //     display: false,
+                        // },
+                        // scales: {
+                        //     yAxes: [
+                        //         {
+                        //             ticks: {
+                        //                 beginAtZero: true,
+                        //             },
+                        //         },
+                        //     ],
+                        // },
+                    }
+                }></Doughnut>
+        </div>
+    );
 }
 
-export default ChampName;
+export default UserWinLose;
