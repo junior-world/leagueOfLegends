@@ -8,7 +8,6 @@ const Img = styled.img`
 
 `
 
-
 function ChampionImg(props) {
 
     const {champSummury} = useContext(ChamSumContext)
